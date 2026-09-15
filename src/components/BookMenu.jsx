@@ -1070,6 +1070,7 @@ export default function BookMenu({
                               </p>
                             </div>
 
+                            {/* TOMBOL PILIH DI KIRI & SISA STOK DI KANAN */}
                             <div
                               className="
                                 flex
@@ -1080,36 +1081,6 @@ export default function BookMenu({
                                 border-stone-200/80
                               "
                             >
-                              <div
-                                className="
-                                  flex
-                                  items-center
-                                  space-x-1.5
-                                  text-[10px]
-                                  sm:text-[11px]
-                                  font-mono
-                                  text-stone-700
-                                  bg-stone-100
-                                  px-2
-                                  py-0.5
-                                  rounded-md
-                                  border
-                                  border-stone-300
-                                  font-bold
-                                "
-                              >
-                                <AlertCircle className="w-3 h-3 text-[#4b5d2d]" />
-                                <span>
-                                  Sisa:{' '}
-                                  <strong className="text-stone-900">
-                                    {Math.max(
-                                      0,
-                                      maxStock - currentQtyInCart
-                                    )}
-                                  </strong>
-                                </span>
-                              </div>
-
                               <div>
                                 <button
                                   onClick={() => {
@@ -1154,6 +1125,36 @@ export default function BookMenu({
                                     </>
                                   )}
                                 </button>
+                              </div>
+
+                              <div
+                                className="
+                                  flex
+                                  items-center
+                                  space-x-1.5
+                                  text-[10px]
+                                  sm:text-[11px]
+                                  font-mono
+                                  text-stone-700
+                                  bg-stone-100
+                                  px-2
+                                  py-0.5
+                                  rounded-md
+                                  border
+                                  border-stone-300
+                                  font-bold
+                                "
+                              >
+                                <AlertCircle className="w-3 h-3 text-[#4b5d2d]" />
+                                <span>
+                                  Sisa:{' '}
+                                  <strong className="text-stone-900">
+                                    {Math.max(
+                                      0,
+                                      maxStock - currentQtyInCart
+                                    )}
+                                  </strong>
+                                </span>
                               </div>
                             </div>
                           </div>
