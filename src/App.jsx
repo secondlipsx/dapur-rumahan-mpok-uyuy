@@ -13,11 +13,11 @@ export default function App() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [cart, setCart] = useState([]);
 
-  // Fungsi Tambah ke Keranjang dengan penanganan varian & allowFried yang aman
+  // Fungsi Tambah ke Keranjang dengan penanganan allowFried & varian goreng yang aman
   const addToCart = (item) => {
     setCart(prevCart => {
       const isFried = item.fried || false;
-      const cartId = `${item.id}-${isFried ? 'fried' : 'normal'}-${item.note || ''}`;
+      const cartId = `${item.id}-${isFried ? 'fried' : 'normal'}`;
       
       const existingIndex = prevCart.findIndex(cartItem => cartItem.cartId === cartId);
 
@@ -26,7 +26,17 @@ export default function App() {
           idx === existingIndex ? { ...cartItem, qty: cartItem.qty + 1 } : cartItem
         );
       }
-      return [...prevCart, { ...item, fried: isFried, allowFried: item.allowFried ?? true, cartId, qty: 1 }];
+      return [
+        ...prevCart, 
+        { 
+          ...item, 
+          fried: isFried, 
+          allowFried: item.allowFried ?? false, 
+          cartId, 
+          qty: 1, 
+          note: '' 
+        }
+      ];
     });
   };
 
@@ -52,24 +62,23 @@ export default function App() {
     setCart([]);
   };
 
-  // Fungsi Toggle Varian Goreng di Keranjang
+  // Fungsi Toggle Varian Goreng (+2rb) di Keranjang
   const toggleFried = (cartId) => {
     setCart(prevCart => prevCart.map(item => {
       if (item.cartId === cartId) {
         const newFried = !item.fried;
-        const newCartId = `${item.id}-${newFried ? 'fried' : 'normal'}-${item.note || ''}`;
+        const newCartId = `${item.id}-${newFried ? 'fried' : 'normal'}`;
         return { ...item, fried: newFried, cartId: newCartId };
       }
       return item;
     }));
   };
 
-  // Fungsi Update Catatan Spesifik per Item di Keranjang
+  // Fungsi Update Catatan Spesifik per Item di Keranjang tanpa mengubah cartId (agar kursor tidak hilang)
   const updateItemNote = (cartId, newNote) => {
     setCart(prevCart => prevCart.map(item => {
       if (item.cartId === cartId) {
-        const newCartId = `${item.id}-${item.fried ? 'fried' : 'normal'}-${newNote || ''}`;
-        return { ...item, note: newNote, cartId: newCartId };
+        return { ...item, note: newNote };
       }
       return item;
     }));

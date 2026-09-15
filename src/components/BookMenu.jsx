@@ -5,7 +5,7 @@ import { Plus, Check, Store, UtensilsCrossed, AlertCircle, ChefHat, Soup } from 
 const Page = React.forwardRef((props, ref) => {
   return (
     <div 
-      className="demo-page bg-[#fcfbf9] text-stone-900 h-full pt-5 pb-5 pl-5 pr-4 sm:pt-7 sm:pb-7 sm:pl-7 sm:pr-5 shadow-[inset_-10px_0_20px_-5px_rgba(0,0,0,0.06)] flex flex-col justify-between relative overflow-hidden border-r border-[#e2dcd0] cursor-grab active:cursor-grabbing" 
+      className="demo-page bg-[#fcfbf9] text-stone-900 h-full pt-5 pb-5 pl-5 pr-4 sm:pt-7 sm:pb-7 sm:pl-7 sm:pr-5 shadow-[inset_-10px_0_20px_-5px_rgba(0,0,0,0.06)] flex flex-col justify-between relative overflow-hidden border-r border-[#e2dcd0] cursor-default" 
       ref={ref}
     >
       {/* Watermark Sketsa Koki di Halaman Isi */}
@@ -26,7 +26,7 @@ const Page = React.forwardRef((props, ref) => {
 const CoverPage = React.forwardRef((props, ref) => {
   return (
     <div 
-      className="demo-page bg-gradient-to-br from-[#3a4822] via-[#273016] to-[#151c0b] text-white h-full p-6 sm:p-8 shadow-[inset_-12px_0_25px_-5px_rgba(0,0,0,0.6)] flex flex-col justify-between relative overflow-hidden border-4 border-[#61773a]/40 rounded-r-2xl cursor-grab active:cursor-grabbing" 
+      className="demo-page bg-gradient-to-br from-[#3a4822] via-[#273016] to-[#151c0b] text-white h-full p-6 sm:p-8 shadow-[inset_-12px_0_25px_-5px_rgba(0,0,0,0.6)] flex flex-col justify-between relative overflow-hidden border-4 border-[#61773a]/40 rounded-r-2xl cursor-default" 
       ref={ref}
     >
       <div 
@@ -46,7 +46,7 @@ const CoverPage = React.forwardRef((props, ref) => {
       <div className="relative z-20 h-full flex flex-col justify-between items-center text-center py-6">
         <div className="space-y-1">
           <span className="text-[10px] uppercase tracking-[0.4em] text-[#d4dfc7] font-serif px-5 py-1.5 rounded-full border border-[#61773a]/60 bg-[#273016]/90 shadow-sm">
-            Edisi Eksklusif
+            BUKU MENU
           </span>
         </div>
 
@@ -67,7 +67,7 @@ const CoverPage = React.forwardRef((props, ref) => {
         </div>
 
         <p className="text-[10px] text-[#d4dfc7]/80 font-mono tracking-[0.2em] uppercase">
-          Sentuh & Geser untuk Membuka ➔
+          Sentuh Pojok Buku untuk Membuka ➔
         </p>
       </div>
     </div>
@@ -78,7 +78,7 @@ const CoverPage = React.forwardRef((props, ref) => {
 const BackCoverPage = React.forwardRef((props, ref) => {
   return (
     <div 
-      className="demo-page bg-gradient-to-br from-[#3a4822] via-[#273016] to-[#151c0b] text-white h-full p-6 sm:p-8 shadow-[inset_-12px_0_25px_-5px_rgba(0,0,0,0.6)] flex flex-col justify-between relative overflow-hidden border-4 border-[#61773a]/40 rounded-r-2xl cursor-grab active:cursor-grabbing" 
+      className="demo-page bg-gradient-to-br from-[#3a4822] via-[#273016] to-[#151c0b] text-white h-full p-6 sm:p-8 shadow-[inset_-12px_0_25px_-5px_rgba(0,0,0,0.6)] flex flex-col justify-between relative overflow-hidden border-4 border-[#61773a]/40 rounded-r-2xl cursor-default" 
       ref={ref}
     >
       <div 
@@ -107,15 +107,7 @@ const BackCoverPage = React.forwardRef((props, ref) => {
           <div className="w-16 h-[1.5px] bg-[#859d58] rounded-full mb-6"></div>
           
           {/* Tombol Tutup Buku Menu */}
-          <div 
-            onClick={props.onStopPropagation}
-            onDoubleClick={props.onStopPropagation}
-            onMouseDown={props.onStopPropagation}
-            onMouseUp={props.onMouseUp}
-            onTouchStart={props.onStopPropagation}
-            onTouchEnd={props.onStopPropagation}
-            className="w-full flex justify-center"
-          >
+          <div className="w-full flex justify-center">
             <button
               onClick={props.onWindyClose}
               disabled={props.isWindyClosing}
@@ -200,13 +192,6 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
     }
   };
 
-  const stopEventPropagation = (e) => {
-    e.stopPropagation();
-    if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) {
-      e.nativeEvent.stopImmediatePropagation();
-    }
-  };
-
   return (
     <div className="flex flex-col items-center justify-start min-h-[75vh] pt-2 pb-16 px-2 select-none bg-[#f4f1ea] rounded-3xl my-2 shadow-sm border border-[#e2dcd0] overflow-x-hidden">
       <div className="relative flex items-center justify-center w-full max-w-4xl">
@@ -238,11 +223,11 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
             drawShadow={true}
             flippingTime={400}
             swipeDistance={50}
-            clickEventForward={true}
+            clickEventForward={false}
             useMouseEvents={true}
-            disableFlipByClick={false}
+            disableFlipByClick={true}
             showPageCorners={true}
-            cornerAreaWidth={15}
+            cornerAreaWidth={40}
             onFlip={handlePageFlip}
             ref={bookRef}
             className="shadow-2xl mx-auto"
@@ -261,13 +246,13 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
                   "Menghadirkan kehangatan cita rasa rumahan dengan standar pelayanan terbaik untuk momen spesial Anda."
                 </p>
                 <div className="inline-block mx-auto text-xs text-[#4b5d2d] bg-[#eef2e6] px-5 py-2 rounded-full uppercase tracking-[0.2em] font-serif font-bold border border-[#d8d2c4] shadow-xs">
-                  Mulai Menjelajah ➔
+                  Sentuh Pojok Halaman ➔
                 </div>
               </div>
-              <div className="text-right text-xs text-stone-400 font-mono pr-3">P. 2</div>
+              <div className="text-right text-xs text-stone-400 font-mono pr-3">H. 2</div>
             </Page>
 
-            {/* 3. Lembaran Menu (Tepat 3 Menu Per Halaman Bergaya Fine Dining) */}
+            {/* 3. Lembaran Menu */}
             {menuPages.map((pageItems, index) => {
               const pageNum = index + 3;
               return (
@@ -280,11 +265,11 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
                           Katalog Hidangan
                         </h3>
                         <span className="text-[11px] font-mono text-[#556b2f] bg-white px-3 py-0.5 rounded-lg shadow-2xs border border-[#d8d2c4]">
-                          Hal. {pageNum}
+                          H. {pageNum}
                         </span>
                       </div>
 
-                      {/* Kontainer Kartu Menu Elegan */}
+                      {/* Kontainer Kartu Menu */}
                       <div className="space-y-3.5">
                         {pageItems.map((item) => {
                           const cartItem = cart.find(ci => ci.id === item.id);
@@ -320,18 +305,9 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
                                   <span>Tersedia: <strong className="text-stone-900">{Math.max(0, maxStock - currentQtyInCart)}</strong></span>
                                 </div>
 
-                                <div 
-                                  onClick={stopEventPropagation}
-                                  onDoubleClick={stopEventPropagation}
-                                  onMouseDown={stopEventPropagation}
-                                  onMouseUp={stopEventPropagation}
-                                  onTouchStart={stopEventPropagation}
-                                  onTouchEnd={stopEventPropagation}
-                                >
+                                <div>
                                   <button
-                                    onClick={(e) => {
-                                      stopEventPropagation(e);
-                                      e.preventDefault();
+                                    onClick={() => {
                                       if (!isOutOfStock) addToCart(item);
                                     }}
                                     disabled={isOutOfStock}
@@ -392,7 +368,7 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
 
                 <div className="flex justify-between items-center text-xs text-stone-400 font-mono pt-3 border-t border-stone-200 z-10 pr-2">
                   <span>{restaurantName}</span>
-                  <span>P. {menuPages.length + 3}</span>
+                  <span>H. {menuPages.length + 3}</span>
                 </div>
               </div>
             </Page>
@@ -413,7 +389,7 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
 
                 <div className="flex justify-between items-center text-xs text-stone-400 font-mono pt-3 border-t border-stone-200 z-10 pr-2">
                   <span>Catatan</span>
-                  <span>P. {menuPages.length + 4}</span>
+                  <span>H. {menuPages.length + 4}</span>
                 </div>
               </div>
             </Page>
@@ -424,7 +400,6 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
               restaurantName={restaurantName} 
               onWindyClose={handleWindyClose} 
               isWindyClosing={isWindyClosing}
-              onStopPropagation={stopEventPropagation}
             />
 
           </HTMLFlipBook>

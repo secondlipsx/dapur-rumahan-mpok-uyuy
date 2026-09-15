@@ -13,7 +13,6 @@ export default function FloatingCart({
   const [isOpen, setIsOpen] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [orderNote, setOrderNote] = useState('');
-  const [orderSuccess, setOrderSuccess] = useState(false);
 
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
   
@@ -38,20 +37,22 @@ export default function FloatingCart({
       return;
     }
 
+    // Format Pesanan Persis Seperti Contoh yang Diinginkan
     let message = `# PESANAN: ${restaurantName ? restaurantName.toUpperCase() : 'RESTO'} #\n\n`;
-    message += `* Nama: ${customerName}\n`;
-    message += `* Lokasi: ${orderNote}\n`;
-    message += `* Waktu: ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB\n\n`;
+    message += `* Nama Pemesan: ${customerName}\n`;
+    message += `* Lokasi Pengantaran: ${orderNote}\n`;
+    message += `* Waktu Pesan: ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB\n\n`;
     
-    message += `$ DAFTAR PESANAN:\n`;
+    message += `# DAFTAR PESANAN:\n`;
+    
     cart.forEach((item, index) => {
       let currentPrice = item.price;
       if (item.fried) currentPrice += 2000;
 
       message += `${index + 1}. ${item.name} (${item.qty}x)\n`;
-      if (item.fried) message += `   - [VARIAN: GORENG MATANG]\n`;
-      if (item.note) message += `   - [CATATAN: ${item.note}]\n`;
-      message += `   - Subtotal: Rp ${(currentPrice * item.qty).toLocaleString('id-ID')}\n`;
+      if (item.fried) message += `   * [VARIAN: GORENG MATANG]\n`;
+      if (item.note && item.note.trim()) message += `   * [CATATAN: ${item.note.trim()}]\n`;
+      message += `   $ Subtotal: Rp ${(currentPrice * item.qty).toLocaleString('id-ID')}\n`;
       if (index < cart.length - 1) message += `\n`;
     });
 
@@ -65,12 +66,11 @@ export default function FloatingCart({
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
 
     window.open(whatsappUrl, '_blank');
-    setOrderSuccess(true);
+    setIsOpen(false);
   };
 
   return (
     <>
-      {/* Tombol Melayang Keranjang */}
       <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={() => setIsOpen(true)}
@@ -86,12 +86,10 @@ export default function FloatingCart({
         </button>
       </div>
 
-      {/* Modal / Panel Keranjang */}
       {isOpen && (
         <div className="fixed inset-0 bg-stone-950/70 backdrop-blur-sm z-50 flex justify-end transition-all animate-fadeIn">
           <div className="bg-[#fcfbf9] w-full max-w-md h-full shadow-2xl flex flex-col border-l border-[#e2dcd0] animate-slide-left">
             
-            {/* Header Modal */}
             <div className="bg-[#3a4822] text-white p-5 flex justify-between items-center shadow-md border-b border-[#4b5d2d]">
               <div>
                 <span className="text-[9px] uppercase tracking-[0.25em] text-[#d4dfc7] font-mono font-semibold">
@@ -109,7 +107,6 @@ export default function FloatingCart({
               </button>
             </div>
 
-            {/* Isi Daftar Belanja */}
             <div className="flex-1 overflow-y-auto p-5 space-y-4">
               {cart.length === 0 ? (
                 <div className="text-center py-24 text-stone-400">
@@ -134,7 +131,7 @@ export default function FloatingCart({
                                 {item.name}
                               </h4>
                               <p className="text-xs font-semibold text-[#4b5d2d] mt-0.5 font-mono">
-                                {formatRupiah(itemPrice)} {item.fried && <span className="text-[10px] text-amber-700 font-normal italic">(+Goreng)</span>}
+                                {formatRupiah(itemPrice)} {item.fried && <span className="text-[10px] text-amber-700 font-normal italic">(+Goreng Rp 2k)</span>}
                               </p>
                             </div>
                             <button 
@@ -146,7 +143,6 @@ export default function FloatingCart({
                             </button>
                           </div>
 
-                          {/* Tombol Kuantitas & Opsi Goreng */}
                           <div className="flex items-center justify-between border-t border-stone-100 pt-2.5">
                             <div className="flex items-center gap-2 bg-[#f4f1ea] p-1 rounded-xl border border-[#e2dcd0]">
                               <button
@@ -164,21 +160,18 @@ export default function FloatingCart({
                               </button>
                             </div>
 
-                            {/* Opsi Goreng jika tersedia */}
-                            {item.allowFried && (
-                              <label className="flex items-center gap-1.5 text-[11px] font-medium text-stone-700 cursor-pointer bg-amber-50 border border-amber-200/60 px-2.5 py-1 rounded-xl">
-                                <input
-                                  type="checkbox"
-                                  checked={item.fried || false}
-                                  onChange={() => toggleFried(item.cartId)}
-                                  className="rounded text-[#4b5d2d] focus:ring-[#4b5d2d] w-3.5 h-3.5 cursor-pointer"
-                                />
-                                Goreng (+2rb)
-                              </label>
-                            )}
+                            {/* Opsi Goreng (+2rb) */}
+                            <label className="flex items-center gap-1.5 text-[11px] font-medium text-stone-700 cursor-pointer bg-amber-50 border border-amber-200/60 px-2.5 py-1 rounded-xl">
+                              <input
+                                type="checkbox"
+                                checked={item.fried || false}
+                                onChange={() => toggleFried(item.cartId)}
+                                className="rounded text-[#4b5d2d] focus:ring-[#4b5d2d] w-3.5 h-3.5 cursor-pointer"
+                              />
+                              Goreng (+2rb)
+                            </label>
                           </div>
 
-                          {/* Catatan Item Khusus */}
                           <div>
                             <input
                               type="text"
@@ -193,7 +186,6 @@ export default function FloatingCart({
                     })}
                   </div>
 
-                  {/* Tombol Kosongkan Keranjang */}
                   <div className="text-right pt-1">
                     <button
                       onClick={clearCart}
@@ -203,7 +195,6 @@ export default function FloatingCart({
                     </button>
                   </div>
 
-                  {/* Form Pemesan */}
                   <form onSubmit={handleCheckout} className="space-y-3.5 pt-4 border-t border-[#e2dcd0]">
                     <h3 className="font-serif font-bold text-stone-800 text-sm tracking-wide">Informasi Pemesan</h3>
                     
@@ -220,7 +211,7 @@ export default function FloatingCart({
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-semibold text-stone-600 mb-1">Lokasi Pengiriman *</label>
+                      <label className="block text-[11px] font-semibold text-stone-600 mb-1">Catatan / Lokasi Pengiriman *</label>
                       <input
                         type="text"
                         required
@@ -231,7 +222,6 @@ export default function FloatingCart({
                       />
                     </div>
 
-                    {/* Total Harga & Tombol Kirim WhatsApp */}
                     <div className="pt-3">
                       <div className="flex justify-between items-center mb-4 bg-[#f4f1ea] p-3.5 rounded-2xl border border-[#e2dcd0]">
                         <span className="font-serif font-bold text-stone-700 text-sm">Total Pembayaran:</span>
