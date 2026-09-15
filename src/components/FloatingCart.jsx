@@ -51,9 +51,9 @@ export default function FloatingCart({
       if (item.fried) currentPrice += 2000;
 
       message += `${index + 1}. ${item.name} (${item.qty}x)\n`;
-      if (item.fried) message += `   🔥 *[VARIAN: GORENG MATANG]*\n`;
-      if (item.note) message += `   💬 *[CATATAN: "${item.note}"]*\n`;
-      message += `   💰 Subtotal: *${formatRupiah(currentPrice * item.qty)}*\n`;
+      if (item.fried) message += `   > [VARIAN: GORENG MATANG]\n`;
+      if (item.note) message += `   > [CATATAN: "${item.note}"]\n`;
+      message += `   > Subtotal: *${formatRupiah(currentPrice * item.qty)}*\n`;
       if (index < cart.length - 1) message += `\n`;
     });
 
