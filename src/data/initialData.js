@@ -7,6 +7,7 @@ export const initialMenu = [
     category: "Frozen Food",
     price: 15000,
     desc: "Udang keju lezat isi 4 pcs. Stok tersedia: 7",
+    allowFried: true
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ export const initialMenu = [
     category: "Frozen Food",
     price: 10000,
     desc: "Nagut megalodon gurih isi 3 pcs. Stok tersedia: 4",
+    allowFried: true
   },
   {
     id: 3,
@@ -21,6 +23,7 @@ export const initialMenu = [
     category: "Frozen Food",
     price: 20000,
     desc: "Nagut megalodon porsi puas isi 6 pcs. Stok tersedia: 1",
+    allowFried: true
   },
   {
     id: 4,
@@ -28,5 +31,6 @@ export const initialMenu = [
     category: "Dimsum & Gorengan",
     price: 5000,
     desc: "Dimsum goreng renyah harga per pcs. Stok tersedia: 4",
+    allowFried: false
   }
 ];

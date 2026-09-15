@@ -13,7 +13,6 @@ export default function FloatingCart({
   const [isOpen, setIsOpen] = useState(false);
   const [customerName, setCustomerName] = useState('');
   const [orderNote, setOrderNote] = useState('');
-  const [generalRequest, setGeneralRequest] = useState('');
   const [orderSuccess, setOrderSuccess] = useState(false);
 
   const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
@@ -42,7 +41,6 @@ export default function FloatingCart({
     let message = `# PESANAN: ${restaurantName ? restaurantName.toUpperCase() : 'RESTO'} #\n\n`;
     message += `* Nama: ${customerName}\n`;
     message += `* Lokasi: ${orderNote}\n`;
-    if (generalRequest.trim()) message += `* Info: ${generalRequest}\n`;
     message += `* Waktu: ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB\n\n`;
     
     message += `$ DAFTAR PESANAN:\n`;
@@ -72,7 +70,7 @@ export default function FloatingCart({
 
   return (
     <>
-      {/* Tombol Melayang Keranjang ala Fine Dining */}
+      {/* Tombol Melayang Keranjang */}
       <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={() => setIsOpen(true)}
@@ -88,12 +86,12 @@ export default function FloatingCart({
         </button>
       </div>
 
-      {/* Modal / Panel Keranjang Mewah */}
+      {/* Modal / Panel Keranjang */}
       {isOpen && (
         <div className="fixed inset-0 bg-stone-950/70 backdrop-blur-sm z-50 flex justify-end transition-all animate-fadeIn">
           <div className="bg-[#fcfbf9] w-full max-w-md h-full shadow-2xl flex flex-col border-l border-[#e2dcd0] animate-slide-left">
             
-            {/* Header Modal Elegan */}
+            {/* Header Modal */}
             <div className="bg-[#3a4822] text-white p-5 flex justify-between items-center shadow-md border-b border-[#4b5d2d]">
               <div>
                 <span className="text-[9px] uppercase tracking-[0.25em] text-[#d4dfc7] font-mono font-semibold">
@@ -205,7 +203,7 @@ export default function FloatingCart({
                     </button>
                   </div>
 
-                  {/* Form Pemesan Bergaya Klasik Mewah */}
+                  {/* Form Pemesan */}
                   <form onSubmit={handleCheckout} className="space-y-3.5 pt-4 border-t border-[#e2dcd0]">
                     <h3 className="font-serif font-bold text-stone-800 text-sm tracking-wide">Informasi Pemesan</h3>
                     
@@ -222,24 +220,13 @@ export default function FloatingCart({
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-semibold text-stone-600 mb-1">Catatan / Lokasi Pengiriman *</label>
+                      <label className="block text-[11px] font-semibold text-stone-600 mb-1">Lokasi Pengiriman *</label>
                       <input
                         type="text"
                         required
                         placeholder="Contoh: Kantor / Meja 3"
                         value={orderNote}
                         onChange={(e) => setOrderNote(e.target.value)}
-                        className="w-full text-sm bg-white border border-[#e2dcd0] rounded-xl px-3 py-2.5 text-stone-800 focus:outline-none focus:border-[#4b5d2d] shadow-2xs font-serif"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[11px] font-semibold text-stone-600 mb-1">Catatan Umum (Opsional)</label>
-                      <input
-                        type="text"
-                        placeholder="Contoh: Tolong siapkan sendok ekstra"
-                        value={generalRequest}
-                        onChange={(e) => setGeneralRequest(e.target.value)}
                         className="w-full text-sm bg-white border border-[#e2dcd0] rounded-xl px-3 py-2.5 text-stone-800 focus:outline-none focus:border-[#4b5d2d] shadow-2xs font-serif"
                       />
                     </div>

@@ -13,11 +13,11 @@ export default function App() {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [cart, setCart] = useState([]);
 
-  // Fungsi Tambah ke Keranjang dengan unik ID (mendukung varian & catatan berbeda)
+  // Fungsi Tambah ke Keranjang dengan penanganan varian & allowFried yang aman
   const addToCart = (item) => {
     setCart(prevCart => {
-      // Buat cartId unik berdasarkan id, status fried, dan note
-      const cartId = `${item.id}-${item.fried ? 'fried' : 'normal'}-${item.note || ''}`;
+      const isFried = item.fried || false;
+      const cartId = `${item.id}-${isFried ? 'fried' : 'normal'}-${item.note || ''}`;
       
       const existingIndex = prevCart.findIndex(cartItem => cartItem.cartId === cartId);
 
@@ -26,7 +26,7 @@ export default function App() {
           idx === existingIndex ? { ...cartItem, qty: cartItem.qty + 1 } : cartItem
         );
       }
-      return [...prevCart, { ...item, cartId, qty: 1 }];
+      return [...prevCart, { ...item, fried: isFried, allowFried: item.allowFried ?? true, cartId, qty: 1 }];
     });
   };
 
@@ -110,7 +110,7 @@ export default function App() {
         )}
       </main>
 
-      {/* Floating Cart dengan props lengkap */}
+      {/* Floating Cart */}
       {viewMode === 'customer' && (
         <FloatingCart 
           cart={cart} 
