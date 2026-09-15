@@ -39,27 +39,28 @@ export default function FloatingCart({
       return;
     }
 
-    let message = `*PESANAN: ${restaurantName ? restaurantName.toUpperCase() : 'RESTO'}*\n\n`;
-    message += `• Nama: ${customerName}\n`;
-    message += `• Lokasi: ${orderNote}\n`;
-    if (generalRequest.trim()) message += `• Info: ${generalRequest}\n`;
-    message += `• Waktu: ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB\n\n`;
+    let message = `# PESANAN: ${restaurantName ? restaurantName.toUpperCase() : 'RESTO'} #\n\n`;
+    message += `* Nama: ${customerName}\n`;
+    message += `* Lokasi: ${orderNote}\n`;
+    if (generalRequest.trim()) message += `* Info: ${generalRequest}\n`;
+    message += `* Waktu: ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB\n\n`;
     
-    message += `*DAFTAR PESANAN:*\n`;
+    message += `$ DAFTAR PESANAN:\n`;
     cart.forEach((item, index) => {
       let currentPrice = item.price;
       if (item.fried) currentPrice += 2000;
 
       message += `${index + 1}. ${item.name} (${item.qty}x)\n`;
-      if (item.fried) message += `   > [VARIAN: GORENG MATANG]\n`;
-      if (item.note) message += `   > [CATATAN: "${item.note}"]\n`;
-      message += `   > Subtotal: *${formatRupiah(currentPrice * item.qty)}*\n`;
+      if (item.fried) message += `   - [VARIAN: GORENG MATANG]\n`;
+      if (item.note) message += `   - [CATATAN: ${item.note}]\n`;
+      message += `   - Subtotal: Rp ${(currentPrice * item.qty).toLocaleString('id-ID')}\n`;
       if (index < cart.length - 1) message += `\n`;
     });
 
-    message += `\n----------------------------------------\n`;
-    message += `*TOTAL: ${formatRupiah(totalPrice)}*\n`;
-    message += `_Mohon segera diproses, terima kasih!_`;
+    message += `\n========================================\n`;
+    message += `$ TOTAL PEMBAYARAN: Rp ${totalPrice.toLocaleString('id-ID')}\n`;
+    message += `========================================\n\n`;
+    message += `Mohon segera diproses, terima kasih!`;
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappNumber = '6283875535702'; 
