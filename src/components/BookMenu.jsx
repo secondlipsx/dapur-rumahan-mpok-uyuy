@@ -34,7 +34,7 @@ const Page = React.forwardRef((props, ref) => {
         overflow-hidden
         border-r
         border-[#e2dcd0]
-        cursor-pointer
+        cursor-default
       "
     >
       {/* Watermark */}
@@ -104,7 +104,7 @@ const CoverPage = React.forwardRef((props, ref) => {
         border-4
         border-[#61773a]/40
         rounded-r-2xl
-        cursor-pointer
+        cursor-default
       "
     >
       <div
@@ -320,7 +320,7 @@ const BackCoverPage = React.forwardRef((props, ref) => {
         border-4
         border-[#61773a]/40
         rounded-r-2xl
-        cursor-pointer
+        cursor-default
       "
     >
       <div
@@ -464,13 +464,6 @@ const BackCoverPage = React.forwardRef((props, ref) => {
           <div className="w-full flex justify-center">
             <button
               type="button"
-              onTouchEnd={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (props.onWindyClose) {
-                  props.onWindyClose(e);
-                }
-              }}
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -812,11 +805,11 @@ export default function BookMenu({
             drawShadow={true}
             flippingTime={450}
             swipeDistance={30}
-            clickEventForward={true}
+            clickEventForward={false}
             useMouseEvents={true}
-            disableFlipByClick={false}
+            disableFlipByClick={true}
             showPageCorners={true}
-            cornerAreaWidth={60}
+            cornerAreaWidth={40}
             onFlip={handlePageFlip}
             ref={bookRef}
             className={`
@@ -937,6 +930,7 @@ export default function BookMenu({
             {/* MENU PAGES */}
             {menuPages.map((pageItems, index) => {
               const pageNum = index + 3;
+              const isEvenPage = pageNum % 2 === 0; // Genap = true, Ganjil = false
 
               return (
                 <Page key={index} number={pageNum}>
@@ -1070,7 +1064,7 @@ export default function BookMenu({
                               </p>
                             </div>
 
-                            {/* TOMBOL PILIH DI KIRI & SISA STOK DI KANAN */}
+                            {/* POSISI DINAMIS: GANJIL = TOMBOL DI KIRI, GENAP = TOMBOL DI KANAN */}
                             <div
                               className="
                                 flex
@@ -1081,81 +1075,169 @@ export default function BookMenu({
                                 border-stone-200/80
                               "
                             >
-                              <div>
-                                <button
-                                  onClick={() => {
-                                    if (!isOutOfStock) {
-                                      addToCart(item);
-                                    }
-                                  }}
-                                  disabled={isOutOfStock}
-                                  className={`
-                                    px-3
-                                    py-1.5
-                                    rounded-lg
-                                    text-xs
-                                    font-serif
-                                    font-bold
+                              {/* Sisi Kiri */}
+                              {isEvenPage ? (
+                                <div
+                                  className="
                                     flex
                                     items-center
-                                    space-x-1
-                                    transition-all
-                                    cursor-pointer
-                                    pointer-events-auto
-                                    ${
-                                      isOutOfStock
-                                        ? 'bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200'
-                                        : cartItem
-                                        ? 'bg-[#4b5d2d] text-white shadow-xs'
-                                        : 'bg-[#4b5d2d] hover:bg-[#3a4822] text-white active:scale-95'
-                                    }
-                                  `}
+                                    space-x-1.5
+                                    text-[10px]
+                                    sm:text-[11px]
+                                    font-mono
+                                    text-stone-700
+                                    bg-stone-100
+                                    px-2
+                                    py-0.5
+                                    rounded-md
+                                    border
+                                    border-stone-300
+                                    font-bold
+                                  "
                                 >
-                                  {isOutOfStock ? (
-                                    <span>Habis</span>
-                                  ) : cartItem ? (
-                                    <>
-                                      <Check className="w-3 h-3 text-[#d4dfc7]" />
-                                      <span>({cartItem.qty})</span>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Plus className="w-3 h-3 text-white" />
-                                      <span>Pilih</span>
-                                    </>
-                                  )}
-                                </button>
-                              </div>
-
-                              <div
-                                className="
-                                  flex
-                                  items-center
-                                  space-x-1.5
-                                  text-[10px]
-                                  sm:text-[11px]
-                                  font-mono
-                                  text-stone-700
-                                  bg-stone-100
-                                  px-2
-                                  py-0.5
-                                  rounded-md
-                                  border
-                                  border-stone-300
-                                  font-bold
-                                "
-                              >
-                                <AlertCircle className="w-3 h-3 text-[#4b5d2d]" />
-                                <span>
-                                  Sisa:{' '}
-                                  <strong className="text-stone-900">
-                                    {Math.max(
-                                      0,
-                                      maxStock - currentQtyInCart
+                                  <AlertCircle className="w-3 h-3 text-[#4b5d2d]" />
+                                  <span>
+                                    Sisa:{' '}
+                                    <strong className="text-stone-900">
+                                      {Math.max(
+                                        0,
+                                        maxStock - currentQtyInCart
+                                      )}
+                                    </strong>
+                                  </span>
+                                </div>
+                              ) : (
+                                <div>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      if (!isOutOfStock) {
+                                        addToCart(item);
+                                      }
+                                    }}
+                                    disabled={isOutOfStock}
+                                    className={`
+                                      px-3
+                                      py-1.5
+                                      rounded-lg
+                                      text-xs
+                                      font-serif
+                                      font-bold
+                                      flex
+                                      items-center
+                                      space-x-1
+                                      transition-all
+                                      cursor-pointer
+                                      pointer-events-auto
+                                      ${
+                                        isOutOfStock
+                                          ? 'bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200'
+                                          : cartItem
+                                          ? 'bg-[#4b5d2d] text-white shadow-xs'
+                                          : 'bg-[#4b5d2d] hover:bg-[#3a4822] text-white active:scale-95'
+                                      }
+                                    `}
+                                  >
+                                    {isOutOfStock ? (
+                                      <span>Habis</span>
+                                    ) : cartItem ? (
+                                      <>
+                                        <Check className="w-3 h-3 text-[#d4dfc7]" />
+                                        <span>({cartItem.qty})</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Plus className="w-3 h-3 text-white" />
+                                        <span>Pilih</span>
+                                      </>
                                     )}
-                                  </strong>
-                                </span>
-                              </div>
+                                  </button>
+                                </div>
+                              )}
+
+                              {/* Sisi Kanan */}
+                              {isEvenPage ? (
+                                <div>
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      if (!isOutOfStock) {
+                                        addToCart(item);
+                                      }
+                                    }}
+                                    disabled={isOutOfStock}
+                                    className={`
+                                      px-3
+                                      py-1.5
+                                      rounded-lg
+                                      text-xs
+                                      font-serif
+                                      font-bold
+                                      flex
+                                      items-center
+                                      space-x-1
+                                      transition-all
+                                      cursor-pointer
+                                      pointer-events-auto
+                                      ${
+                                        isOutOfStock
+                                          ? 'bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200'
+                                          : cartItem
+                                          ? 'bg-[#4b5d2d] text-white shadow-xs'
+                                          : 'bg-[#4b5d2d] hover:bg-[#3a4822] text-white active:scale-95'
+                                      }
+                                    `}
+                                  >
+                                    {isOutOfStock ? (
+                                      <span>Habis</span>
+                                    ) : cartItem ? (
+                                      <>
+                                        <Check className="w-3 h-3 text-[#d4dfc7]" />
+                                        <span>({cartItem.qty})</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Plus className="w-3 h-3 text-white" />
+                                        <span>Pilih</span>
+                                      </>
+                                    )}
+                                  </button>
+                                </div>
+                              ) : (
+                                <div
+                                  className="
+                                    flex
+                                    items-center
+                                    space-x-1.5
+                                    text-[10px]
+                                    sm:text-[11px]
+                                    font-mono
+                                    text-stone-700
+                                    bg-stone-100
+                                    px-2
+                                    py-0.5
+                                    rounded-md
+                                    border
+                                    border-stone-300
+                                    font-bold
+                                  "
+                                >
+                                  <AlertCircle className="w-3 h-3 text-[#4b5d2d]" />
+                                  <span>
+                                    Sisa:{' '}
+                                    <strong className="text-stone-900">
+                                      {Math.max(
+                                        0,
+                                        maxStock - currentQtyInCart
+                                      )}
+                                    </strong>
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           </div>
                         );
