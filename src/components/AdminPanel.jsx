@@ -20,7 +20,7 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
 
   // Daftar kategori unik yang otomatis diambil dari data menu yang ada + tambahan opsi umum jika kosong
   const existingCategories = [...new Set(menu.map(item => item.category))];
-  const defaultCategories = ['Makanan Utama', 'Minuman', 'Cemilan', 'Dessert'];
+  const defaultCategories = ['Frozen Food', 'Dimsum & Gorengan', 'Makanan Utama', 'Minuman'];
   const categoriesList = [...new Set([...defaultCategories, ...existingCategories])];
 
   // Simpan Nama Restoran
@@ -89,19 +89,19 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
   };
 
   return (
-    <div className="space-y-6 pt-2 pb-16">
+    <div className="space-y-6 pt-2 pb-16 max-w-3xl mx-auto">
       
       {/* Bagian Pengaturan Nama Restoran */}
-      <div className="bg-stone-900 text-amber-50 p-5 rounded-2xl shadow-xl border border-amber-500/20">
+      <div className="bg-slate-900 text-blue-50 p-5 rounded-2xl shadow-xl border border-blue-500/20">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
-            <Store className="w-5 h-5 text-amber-400" />
+            <Store className="w-5 h-5 text-blue-400" />
             <h3 className="font-bold text-sm tracking-wide">Pengaturan Nama Restoran</h3>
           </div>
           {!isEditingResto && (
             <button
               onClick={() => setIsEditingResto(true)}
-              className="px-3 py-1 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold transition"
+              className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition shadow-sm"
             >
               Ubah Nama
             </button>
@@ -114,12 +114,12 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
               type="text"
               value={tempRestoName}
               onChange={(e) => setTempRestoName(e.target.value)}
-              className="flex-1 bg-stone-800 border border-stone-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
             <button
               type="submit"
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1"
+              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1 shadow-sm"
             >
               <Save className="w-4 h-4" />
               <span>Simpan</span>
@@ -127,20 +127,20 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
             <button
               type="button"
               onClick={() => setIsEditingResto(false)}
-              className="px-3 py-2 bg-stone-700 hover:bg-stone-600 text-white rounded-xl text-xs transition"
+              className="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs transition"
             >
               Batal
             </button>
           </form>
         ) : (
-          <p className="text-amber-200/80 font-serif text-base">{restaurantName}</p>
+          <p className="text-blue-200/90 font-serif text-base">{restaurantName}</p>
         )}
       </div>
 
       {/* Bagian Tambah Menu Baru */}
-      <div className="bg-stone-900 text-amber-50 p-5 rounded-2xl shadow-xl border border-amber-500/20">
+      <div className="bg-slate-900 text-blue-50 p-5 rounded-2xl shadow-xl border border-blue-500/20">
         <div className="flex items-center space-x-2 mb-4">
-          <Plus className="w-5 h-5 text-amber-400" />
+          <Plus className="w-5 h-5 text-blue-400" />
           <h3 className="font-bold text-sm tracking-wide">Tambah Menu Baru</h3>
         </div>
 
@@ -151,7 +151,7 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
               placeholder="Nama Menu"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
-              className="bg-stone-800 border border-stone-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
             
@@ -159,7 +159,7 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
             <select
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
-              className="bg-stone-800 border border-stone-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="" disabled>Pilih Kategori</option>
               {categoriesList.map((cat, idx) => (
@@ -172,21 +172,21 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
               placeholder="Harga (angka saja)"
               value={newPrice}
               onChange={(e) => setNewPrice(e.target.value)}
-              className="bg-stone-800 border border-stone-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           <textarea
-            placeholder="Deskripsi singkat hidangan..."
+            placeholder="Deskripsi singkat hidangan & info stok (cth: Stok tersedia: 7)..."
             value={newDesc}
             onChange={(e) => setNewDesc(e.target.value)}
-            className="w-full bg-stone-800 border border-stone-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none h-16"
+            className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none h-16"
           ></textarea>
 
           <button
             type="submit"
-            className="w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition shadow"
+            className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition shadow-sm"
           >
             Tambahkan ke Menu Buku
           </button>
@@ -194,15 +194,15 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
       </div>
 
       {/* Daftar Menu Kelola */}
-      <div className="bg-stone-900 text-amber-50 p-5 rounded-2xl shadow-xl border border-amber-500/20">
+      <div className="bg-slate-900 text-blue-50 p-5 rounded-2xl shadow-xl border border-blue-500/20">
         <div className="flex items-center space-x-2 mb-4">
-          <Utensils className="w-5 h-5 text-amber-400" />
+          <Utensils className="w-5 h-5 text-blue-400" />
           <h3 className="font-bold text-sm tracking-wide">Daftar & Pengelolaan Menu ({menu.length} Item)</h3>
         </div>
 
         <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
           {menu.map((item) => (
-            <div key={item.id} className="bg-stone-800/80 p-3.5 rounded-xl border border-stone-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <div key={item.id} className="bg-slate-800/80 p-3.5 rounded-xl border border-slate-700/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               
               {editingId === item.id ? (
                 // Mode Edit Item
@@ -212,12 +212,12 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
                       type="text"
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
-                      className="bg-stone-900 border border-stone-600 rounded-lg px-2 py-1.5 text-xs text-white"
+                      className="bg-slate-900 border border-slate-600 rounded-lg px-2 py-1.5 text-xs text-white"
                     />
                     <select
                       value={editCategory}
                       onChange={(e) => setEditCategory(e.target.value)}
-                      className="bg-stone-900 border border-stone-600 rounded-lg px-2 py-1.5 text-xs text-white"
+                      className="bg-slate-900 border border-slate-600 rounded-lg px-2 py-1.5 text-xs text-white"
                     >
                       {categoriesList.map((cat, idx) => (
                         <option key={idx} value={cat}>{cat}</option>
@@ -227,14 +227,14 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
                       type="number"
                       value={editPrice}
                       onChange={(e) => setEditPrice(e.target.value)}
-                      className="bg-stone-900 border border-stone-600 rounded-lg px-2 py-1.5 text-xs text-white"
+                      className="bg-slate-900 border border-slate-600 rounded-lg px-2 py-1.5 text-xs text-white"
                     />
                   </div>
                   <input
                     type="text"
                     value={editDesc}
                     onChange={(e) => setEditDesc(e.target.value)}
-                    className="w-full bg-stone-900 border border-stone-600 rounded-lg px-2 py-1.5 text-xs text-white"
+                    className="w-full bg-slate-900 border border-slate-600 rounded-lg px-2 py-1.5 text-xs text-white"
                   />
                   <div className="flex justify-end space-x-2 pt-1">
                     <button
@@ -245,7 +245,7 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
                     </button>
                     <button
                       onClick={() => setEditingId(null)}
-                      className="px-3 py-1 bg-stone-700 hover:bg-stone-600 text-white rounded-lg text-xs"
+                      className="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-xs"
                     >
                       Batal
                     </button>
@@ -257,12 +257,12 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
                   <div className="flex-1">
                     <div className="flex items-center space-x-2">
                       <h4 className="font-bold text-xs sm:text-sm text-white">{item.name}</h4>
-                      <span className="bg-amber-900/60 text-amber-300 text-[10px] px-2 py-0.5 rounded-md font-mono border border-amber-700/50">
+                      <span className="bg-blue-900/60 text-blue-200 text-[10px] px-2 py-0.5 rounded-md font-mono border border-blue-700/50">
                         {item.category}
                       </span>
                     </div>
-                    <p className="text-stone-400 text-[11px] mt-0.5 line-clamp-1">{item.desc}</p>
-                    <span className="text-orange-400 font-bold text-xs mt-1 block font-mono">
+                    <p className="text-slate-400 text-[11px] mt-0.5 line-clamp-1">{item.desc}</p>
+                    <span className="text-blue-400 font-bold text-xs mt-1 block font-mono">
                       {formatRupiah(item.price)}
                     </span>
                   </div>
@@ -270,14 +270,14 @@ export default function AdminPanel({ restaurantName, setRestaurantName, menu, se
                   <div className="flex items-center space-x-2 self-end sm:self-center">
                     <button
                       onClick={() => handleStartEdit(item)}
-                      className="p-1.5 bg-stone-700 hover:bg-amber-600 text-amber-200 hover:text-white rounded-lg transition"
+                      className="p-1.5 bg-slate-700 hover:bg-blue-600 text-blue-200 hover:text-white rounded-lg transition"
                       title="Edit Menu"
                     >
                       <Edit2 className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={() => handleDeleteMenu(item.id)}
-                      className="p-1.5 bg-stone-700 hover:bg-red-600 text-red-300 hover:text-white rounded-lg transition"
+                      className="p-1.5 bg-slate-700 hover:bg-red-600 text-red-300 hover:text-white rounded-lg transition"
                       title="Hapus Menu"
                     >
                       <Trash2 className="w-3.5 h-3.5" />

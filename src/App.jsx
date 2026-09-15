@@ -15,10 +15,14 @@ export default function App() {
 
   const addToCart = (item) => {
     setCart(prevCart => {
-      const existing = prevCart.find(cartItem => cartItem.id === item.id);
-      if (existing) {
-        return prevCart.map(cartItem => 
-          cartItem.id === item.id ? { ...cartItem, qty: cartItem.qty + 1 } : cartItem
+      // Cek apakah item dengan ID, varian (fried), dan catatan (note) yang sama sudah ada di keranjang
+      const existingIndex = prevCart.findIndex(
+        cartItem => cartItem.id === item.id && cartItem.fried === item.fried && cartItem.note === item.note
+      );
+
+      if (existingIndex > -1) {
+        return prevCart.map((cartItem, idx) => 
+          idx === existingIndex ? { ...cartItem, qty: cartItem.qty + 1 } : cartItem
         );
       }
       return [...prevCart, { ...item, qty: 1 }];
@@ -42,7 +46,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50/60 to-yellow-100 text-stone-800 font-sans pb-24">
+    <div className="min-h-screen bg-gradient-to-br from-[#f8f6f0] via-[#f2eee3] to-[#e6dfd1] text-stone-800 font-sans pb-24 selection:bg-[#4b5d2d] selection:text-white">
+      {/* Navbar menerima restaurantName terbaru */}
       <Navbar 
         restaurantName={restaurantName} 
         viewMode={viewMode} 
@@ -51,7 +56,7 @@ export default function App() {
         setIsAdminLoggedIn={setIsAdminLoggedIn}
       />
 
-      <main className="max-w-4xl mx-auto px-4 py-2">
+      <main className="max-w-4xl mx-auto px-4 py-3 transition-all duration-500">
         {viewMode === 'customer' ? (
           <BookMenu 
             restaurantName={restaurantName}
@@ -76,7 +81,7 @@ export default function App() {
           cart={cart} 
           updateCartQty={updateCartQty} 
           setCart={setCart} 
-          formatRupiah={formatRupiah}
+          formatRupiah={formatRupiah} 
           restaurantName={restaurantName}
         />
       )}

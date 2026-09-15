@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Store, BookOpen, Settings, Lock, X, LogOut } from 'lucide-react';
+import { Store, BookOpen, Settings, Lock, X, LogOut, Utensils } from 'lucide-react';
 
 export default function Navbar({ restaurantName, viewMode, setViewMode, isAdminLoggedIn, setIsAdminLoggedIn }) {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [pin, setPin] = useState('');
   const [error, setError] = useState(false);
 
-  // Auto-logout timer (1 menit / 60,000 ms) saat admin login
   useEffect(() => {
     if (!isAdminLoggedIn) return;
-
     let timeoutId;
-
     const resetTimer = () => {
       clearTimeout(timeoutId);
-      // Set waktu 60 detik (1 menit)
       timeoutId = setTimeout(() => {
         setIsAdminLoggedIn(false);
         setViewMode('customer');
@@ -22,11 +18,9 @@ export default function Navbar({ restaurantName, viewMode, setViewMode, isAdminL
       }, 60000); 
     };
 
-    // Event listener untuk mendeteksi aktivitas pengguna
     const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
     events.forEach(event => window.addEventListener(event, resetTimer));
-
-    resetTimer(); // Inisialisasi awal timer
+    resetTimer();
 
     return () => {
       clearTimeout(timeoutId);
@@ -51,7 +45,6 @@ export default function Navbar({ restaurantName, viewMode, setViewMode, isAdminL
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    // PIN Default Admin: 1234
     if (pin === '240922') {
       setIsAdminLoggedIn(true);
       setViewMode('admin');
@@ -63,32 +56,32 @@ export default function Navbar({ restaurantName, viewMode, setViewMode, isAdminL
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-amber-50/90 backdrop-blur-md border-b border-amber-200 shadow-sm">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-50 bg-[#fcfbf9]/90 backdrop-blur-md border-b border-[#e2dcd0] shadow-xs">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-4">
           
           {/* Logo & Nama Restoran */}
-          <div className="flex items-center space-x-3 min-w-0 flex-1">
-            <div className="w-10 h-10 bg-amber-600 rounded-xl flex items-center justify-center shadow-md shrink-0">
-              <Store className="w-5 h-5 text-white" />
+          <div className="flex items-center space-x-3.5 min-w-0 flex-1">
+            <div className="w-11 h-11 bg-gradient-to-br from-[#4b5d2d] to-[#273016] rounded-2xl flex items-center justify-center shadow-md border border-[#61773a]/40 shrink-0">
+              <Utensils className="w-5 h-5 text-[#d4dfc7]" />
             </div>
             <div className="min-w-0">
-              <span className="block text-[10px] uppercase font-mono tracking-widest text-amber-700 font-semibold">
-                Rumah Makan
+              <span className="block text-[9px] uppercase font-mono tracking-[0.25em] text-[#556b2f] font-bold">
+                Fine Dining & Resto
               </span>
-              <h1 className="font-sans font-black text-base sm:text-lg text-stone-900 tracking-tight truncate">
+              <h1 className="font-serif font-bold text-stone-900 text-lg sm:text-xl tracking-wide truncate">
                 {restaurantName}
               </h1>
             </div>
           </div>
 
           {/* Tombol Navigasi */}
-          <div className="flex items-center space-x-2 shrink-0">
+          <div className="flex items-center space-x-2 shrink-0 bg-[#f4f1ea] p-1.5 rounded-2xl border border-[#e2dcd0] shadow-inner">
             <button
               onClick={() => setViewMode('customer')}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all shadow-sm ${
+              className={`px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center space-x-2 transition-all duration-300 cursor-pointer ${
                 viewMode === 'customer'
-                  ? 'bg-amber-800 text-white shadow-amber-900/20'
-                  : 'bg-white text-stone-700 hover:bg-amber-100/50 border border-amber-200'
+                  ? 'bg-[#4b5d2d] text-white shadow-md scale-105'
+                  : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
               }`}
             >
               <BookOpen className="w-4 h-4" />
@@ -97,21 +90,20 @@ export default function Navbar({ restaurantName, viewMode, setViewMode, isAdminL
 
             <button
               onClick={handleKelolaClick}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition-all shadow-sm ${
+              className={`px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center space-x-2 transition-all duration-300 cursor-pointer ${
                 viewMode === 'admin'
-                  ? 'bg-amber-800 text-white shadow-amber-900/20'
-                  : 'bg-white text-stone-700 hover:bg-amber-100/50 border border-amber-200'
+                  ? 'bg-[#4b5d2d] text-white shadow-md scale-105'
+                  : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
               }`}
             >
               <Settings className="w-4 h-4" />
               <span className="hidden sm:inline">Kelola</span>
             </button>
 
-            {/* Tombol Keluar (Hanya muncul jika admin sudah login) */}
             {isAdminLoggedIn && (
               <button
                 onClick={handleLogout}
-                className="px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-1 bg-red-600 hover:bg-red-700 text-white transition shadow-sm"
+                className="px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 bg-red-700 hover:bg-red-800 text-white transition-all shadow-sm cursor-pointer"
                 title="Keluar dari Admin"
               >
                 <LogOut className="w-4 h-4" />
@@ -123,23 +115,23 @@ export default function Navbar({ restaurantName, viewMode, setViewMode, isAdminL
         </div>
       </header>
 
-      {/* Modal Popup Login PIN Admin */}
+      {/* Modal Popup Login PIN Admin dengan z-[9999] agar berada di lapisan paling atas */}
       {showLoginModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-amber-50 rounded-2xl max-w-xs w-full p-6 shadow-2xl border border-amber-200 flex flex-col relative">
+        <div className="fixed inset-0 z-[9999] bg-stone-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-[#f4f1ea] rounded-2xl max-w-xs w-full p-6 shadow-2xl border border-[#d8d2c4] flex flex-col relative animate-fadeIn">
             <button 
               onClick={() => setShowLoginModal(false)}
-              className="absolute top-4 right-4 p-1 rounded-full hover:bg-amber-200/50 text-stone-600 transition"
+              className="absolute top-4 right-4 p-1 rounded-full hover:bg-[#eef2e6] text-stone-600 transition cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
 
             <div className="text-center mb-4">
-              <div className="w-12 h-12 bg-amber-600 rounded-full flex items-center justify-center mx-auto mb-2 text-white shadow-md">
-                <Lock className="w-6 h-6" />
+              <div className="w-12 h-12 bg-[#4b5d2d] rounded-2xl flex items-center justify-center mx-auto mb-2 text-white shadow-md border border-[#61773a]/40">
+                <Lock className="w-6 h-6 text-[#d4dfc7]" />
               </div>
-              <h3 className="font-bold text-stone-900 text-base">Akses Khusus Admin</h3>
-              <p className="text-stone-600 text-xs mt-1">Masukkan PIN untuk masuk ke mode kelola.</p>
+              <h3 className="font-serif font-bold text-stone-800 text-base">Akses Khusus Admin</h3>
+              <p className="text-stone-600 text-xs mt-1 font-serif">Masukkan PIN untuk masuk ke mode kelola.</p>
             </div>
 
             <form onSubmit={handleLoginSubmit} className="space-y-3">
@@ -150,15 +142,15 @@ export default function Navbar({ restaurantName, viewMode, setViewMode, isAdminL
                   placeholder="Masukkan PIN" 
                   value={pin}
                   onChange={(e) => setPin(e.target.value)}
-                  className="w-full px-3 py-2 text-center tracking-widest bg-white rounded-xl border border-amber-300 text-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-600"
+                  className="w-full px-3 py-2.5 text-center tracking-widest bg-white rounded-xl border border-[#d8d2c4] text-stone-800 text-sm focus:outline-none focus:ring-2 focus:ring-[#4b5d2d]"
                   autoFocus
                 />
-                {error && <p className="text-red-600 text-[10px] text-center mt-1 font-semibold">PIN salah! Coba lagi (Default: 1234)</p>}
+                {error && <p className="text-red-600 text-[10px] text-center mt-1 font-semibold">PIN salah! Coba lagi</p>}
               </div>
 
               <button
                 type="submit"
-                className="w-full py-2.5 bg-amber-700 hover:bg-amber-800 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition shadow"
+                className="w-full py-2.5 bg-[#4b5d2d] hover:bg-[#3a4822] text-white rounded-xl font-bold text-xs uppercase tracking-wider transition shadow-sm cursor-pointer"
               >
                 Masuk
               </button>

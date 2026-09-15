@@ -1,32 +1,134 @@
 import React, { useRef, useEffect, useState } from 'react';
 import HTMLFlipBook from 'react-pageflip';
-import { Plus, Check, Store, UtensilsCrossed } from 'lucide-react';
+import { Plus, Check, Store, UtensilsCrossed, AlertCircle, ChefHat, Soup } from 'lucide-react';
 
 const Page = React.forwardRef((props, ref) => {
-  const isEven = props.number % 2 === 0;
   return (
     <div 
-      className="demo-page bg-amber-50/95 text-stone-800 h-full p-4 sm:p-6 shadow-xl flex flex-col justify-between relative overflow-hidden border-r border-amber-200/60" 
+      className="demo-page bg-[#fcfbf9] text-stone-800 h-full pt-4 pb-4 pl-4 pr-3 sm:pt-6 sm:pb-6 sm:pl-6 sm:pr-4 shadow-[inset_-8px_0_15px_-5px_rgba(0,0,0,0.05)] flex flex-col justify-between relative overflow-hidden border-r border-stone-200 cursor-grab active:cursor-grabbing" 
       ref={ref}
     >
-      <div className={`absolute inset-y-0 ${isEven ? 'right-0 w-12 bg-gradient-to-l from-amber-200/40 to-transparent' : 'left-0 w-12 bg-gradient-to-r from-amber-200/40 to-transparent'} pointer-events-none z-10`} />
-      <div className="relative z-0 h-full flex flex-col justify-between">
+      {/* Watermark Sketsa Koki di Halaman Isi */}
+      <div 
+        className="absolute inset-0 bg-center bg-no-repeat bg-contain opacity-[0.05] pointer-events-none z-0"
+        style={{ backgroundImage: `url('/Chef girl.png')` }}
+      />
+
+      <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-stone-200/30 to-transparent pointer-events-none z-10" />
+      <div className="relative z-10 h-full flex flex-col justify-between">
         {props.children}
       </div>
     </div>
   );
 });
 
+// Komponen Cover Depan yang Mewah
 const CoverPage = React.forwardRef((props, ref) => {
-  const isEven = props.number % 2 === 0;
   return (
     <div 
-      className="demo-page bg-gradient-to-br from-amber-600 to-orange-700 text-white h-full p-5 sm:p-8 shadow-xl flex flex-col justify-between relative overflow-hidden border-2 border-amber-500/50" 
+      className="demo-page bg-gradient-to-br from-[#414f26] via-[#2f3b1b] to-[#1d2510] text-white h-full p-6 sm:p-8 shadow-[inset_-12px_0_20px_-5px_rgba(0,0,0,0.5)] flex flex-col justify-between relative overflow-hidden border-4 border-[#61773a]/30 rounded-r-2xl cursor-grab active:cursor-grabbing" 
       ref={ref}
     >
-      <div className={`absolute inset-y-0 ${isEven ? 'right-0 w-12 bg-gradient-to-l from-black/30 to-transparent' : 'left-0 w-12 bg-gradient-to-r from-black/30 to-transparent'} pointer-events-none z-10`} />
-      <div className="relative z-10 h-full flex flex-col justify-between items-center text-center py-4">
-        {props.children}
+      <div 
+        className="absolute inset-0 bg-top bg-no-repeat bg-cover opacity-[0.12] mix-blend-luminosity pointer-events-none z-0 scale-105"
+        style={{ backgroundImage: `url('/Chef girl.png')` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1d2510] via-[#2f3b1b]/70 to-transparent pointer-events-none z-0" />
+
+      {/* Bingkai Klasik Mewah */}
+      <div className="absolute inset-3 border border-[#859d58]/30 rounded-xl pointer-events-none z-10 flex flex-col justify-between p-2">
+        <div className="flex justify-between text-[#859d58]/50 text-[10px]"><span>❖</span><span>❖</span></div>
+        <div className="flex justify-between text-[#859d58]/50 text-[10px]"><span>❖</span><span>❖</span></div>
+      </div>
+
+      <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-black/40 to-transparent pointer-events-none z-20" />
+      
+      <div className="relative z-20 h-full flex flex-col justify-between items-center text-center py-4">
+        <div className="space-y-1">
+          <span className="text-[9px] uppercase tracking-[0.35em] text-[#d4dfc7] font-semibold px-4 py-1 rounded-full border border-[#61773a]/50 bg-[#273016]/80 shadow-xs">
+            Edisi Spesial
+          </span>
+        </div>
+
+        <div className="my-auto flex flex-col items-center w-full px-2">
+          <div className="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4 shadow-lg border border-white/20">
+            <Store className="w-7 h-7 text-[#d4dfc7]" />
+          </div>
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#d4dfc7] font-bold mb-1 opacity-90 font-mono">
+            DAFTAR MENU
+          </span>
+          <h1 className="font-serif font-bold text-xl sm:text-2xl text-white tracking-wide mb-2 drop-shadow-md">
+            {props.restaurantName}
+          </h1>
+          <div className="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#859d58] to-transparent my-2"></div>
+          <p className="font-serif italic text-[#d4dfc7] text-xs opacity-90">
+            Sajian Lezat Khas Rumahan
+          </p>
+        </div>
+
+        <p className="text-[10px] text-[#d4dfc7]/80 font-mono tracking-widest uppercase">
+          Geser untuk mulai memesan ➔
+        </p>
+      </div>
+    </div>
+  );
+});
+
+// Komponen Cover Belakang Berisi Ucapan Terima Kasih & Tombol Tutup Buku
+const BackCoverPage = React.forwardRef((props, ref) => {
+  return (
+    <div 
+      className="demo-page bg-gradient-to-br from-[#414f26] via-[#2f3b1b] to-[#1d2510] text-white h-full p-6 sm:p-8 shadow-[inset_-12px_0_20px_-5px_rgba(0,0,0,0.5)] flex flex-col justify-between relative overflow-hidden border-4 border-[#61773a]/30 rounded-r-2xl cursor-grab active:cursor-grabbing" 
+      ref={ref}
+    >
+      <div 
+        className="absolute inset-0 bg-center bg-no-repeat bg-cover opacity-[0.12] mix-blend-luminosity pointer-events-none z-0"
+        style={{ backgroundImage: `url('/Chef girl.png')` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1d2510] via-[#2f3b1b]/70 to-transparent pointer-events-none z-0" />
+
+      {/* Bingkai Klasik Mewah */}
+      <div className="absolute inset-3 border border-[#859d58]/30 rounded-xl pointer-events-none z-10 flex flex-col justify-between p-2">
+        <div className="flex justify-between text-[#859d58]/50 text-[10px]"><span>❖</span><span>❖</span></div>
+        <div className="flex justify-between text-[#859d58]/50 text-[10px]"><span>❖</span><span>❖</span></div>
+      </div>
+
+      <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-black/40 to-transparent pointer-events-none z-20" />
+
+      <div className="relative z-20 h-full flex flex-col justify-between items-center text-center py-4">
+        <div className="my-auto flex flex-col items-center w-full px-4">
+          <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-3 shadow-md border border-white/20">
+            <UtensilsCrossed className="w-6 h-6 text-[#d4dfc7]" />
+          </div>
+          <h3 className="font-serif font-bold text-lg sm:text-xl text-white tracking-wide mb-2">TERIMA KASIH</h3>
+          <p className="font-serif italic text-[#d4dfc7] text-[11px] sm:text-xs max-w-xs mb-4 opacity-90">
+            "Sampai jumpa kembali di kunjungan berikutnya!"
+          </p>
+          <div className="w-12 h-[2px] bg-[#859d58] rounded-full mb-6"></div>
+          
+          {/* Tombol Tutup Buku Menu */}
+          <div 
+            onClick={props.onStopPropagation}
+            onDoubleClick={props.onStopPropagation}
+            onMouseDown={props.onStopPropagation}
+            onMouseUp={props.onMouseUp}
+            onTouchStart={props.onStopPropagation}
+            onTouchEnd={props.onStopPropagation}
+            className="w-full flex justify-center"
+          >
+            <button
+              onClick={props.onWindyClose}
+              disabled={props.isWindyClosing}
+              className="px-5 py-2.5 bg-[#61773a] hover:bg-[#526531] text-white rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg border border-[#7a954a] transition-all active:scale-95 cursor-pointer w-full max-w-[220px]"
+            >
+              <span>{props.isWindyClosing ? 'Menutup...' : 'Tutup Buku Menu'}</span>
+            </button>
+          </div>
+        </div>
+
+        <p className="text-[9px] sm:text-[10px] text-[#d4dfc7]/80 font-mono uppercase tracking-wider">
+          &copy; 2026 {props.restaurantName}
+        </p>
       </div>
     </div>
   );
@@ -35,7 +137,9 @@ const CoverPage = React.forwardRef((props, ref) => {
 export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah, cart = [] }) {
   const bookRef = useRef();
   const categories = [...new Set(menu.map(item => item.category))];
-  
+
+  const [isWindyClosing, setIsWindyClosing] = useState(false);
+
   const [pageSize, setPageSize] = useState({
     width: window.innerWidth < 768 ? 320 : 380,
     height: window.innerWidth < 768 ? 480 : 540,
@@ -56,20 +160,63 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const handleWindyClose = (e) => {
+    e.stopPropagation();
+    if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) {
+      e.nativeEvent.stopImmediatePropagation();
+    }
+
+    const flip = bookRef.current?.pageFlip();
+    if (!flip || isWindyClosing) return;
+
+    setIsWindyClosing(true);
+
+    const windInterval = setInterval(() => {
+      const currentPage = flip.getCurrentPageIndex();
+      if (currentPage > 0) {
+        flip.flipPrev();
+      } else {
+        clearInterval(windInterval);
+        setIsWindyClosing(false);
+      }
+    }, 200);
+  };
+
+  const handlePageFlip = (e) => {
+    const pageIndex = e.data;
+    const flip = bookRef.current?.pageFlip();
+    if (!flip || isWindyClosing) return;
+
+    const totalPagesCount = flip.getPageCount();
+    if (pageIndex >= totalPagesCount - 1) {
+      setTimeout(() => {
+        flip.turn(0);
+      }, 600);
+    }
+  };
+
+  const stopEventPropagation = (e) => {
+    e.stopPropagation();
+    if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) {
+      e.nativeEvent.stopImmediatePropagation();
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center justify-start min-h-[75vh] pt-1 pb-16 px-2 select-none bg-transparent overflow-x-hidden">
+    <div className="flex flex-col items-center justify-start min-h-[75vh] pt-2 pb-16 px-2 select-none bg-[#f4f1ea] rounded-3xl my-2 shadow-sm border border-[#e2dcd0] overflow-x-hidden">
       <div className="relative flex items-center justify-center w-full max-w-4xl">
         
-        {/* Ring Binder (Hanya Desktop/Tablet) */}
+        {/* Ring Binder */}
         {!pageSize.isMobile && (
-          <div className="absolute left-1/2 -translate-x-1/2 top-4 bottom-4 w-8 flex flex-col justify-between items-center z-50 pointer-events-none hidden md:flex">
+          <div className="absolute left-1/2 -translate-x-1/2 top-3 bottom-3 w-9 flex flex-col justify-between items-center z-50 pointer-events-none hidden md:flex">
             {[...Array(8)].map((_, i) => (
-              <div key={i} className="w-6 h-4 bg-gradient-to-r from-stone-300 via-stone-100 to-stone-400 rounded-full shadow-[0_4px_8px_rgba(0,0,0,0.3)] border border-stone-400"></div>
+              <div key={i} className="w-7 h-5 bg-gradient-to-r from-stone-400 via-stone-100 to-stone-500 rounded-full shadow-[0_4px_8px_rgba(0,0,0,0.2)] border border-stone-500"></div>
             ))}
           </div>
         )}
 
-        <div className="relative shadow-[0_20px_50px_rgba(245,158,11,0.2)] rounded-lg overflow-hidden bg-amber-100 [transform:translateZ(0)] flex justify-center w-full">
+        <div className="relative shadow-[0_20px_50px_rgba(75,93,45,0.2)] rounded-2xl overflow-hidden bg-[#3a4822] p-[3px] border border-[#4b5d2d] [transform:translateZ(0)] flex justify-center w-full">
+          
           <HTMLFlipBook
             width={pageSize.width}
             height={pageSize.height}
@@ -78,54 +225,41 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
             maxWidth={450}
             minHeight={380}
             maxHeight={650}
-            maxShadowOpacity={0.3}
-            showCover={false}
+            maxShadowOpacity={0.25}
+            showCover={true}
             mobileScrollSupport={false}
             usePortrait={pageSize.isMobile}
             startPage={0}
             drawShadow={true}
-            flippingTime={800}
-            swipeDistance={30}
-            clickEventForward={false}
+            flippingTime={400}
+            swipeDistance={50}
+            clickEventForward={true}
             useMouseEvents={true}
-            disableFlipByClick={true}
-            showPageCorners={false}
+            disableFlipByClick={false}
+            showPageCorners={true}
+            cornerAreaWidth={15}
+            onFlip={handlePageFlip}
             ref={bookRef}
             className="shadow-2xl mx-auto"
           >
             {/* 1. Cover Depan */}
-            <CoverPage number={1}>
-              <span className="text-[9px] uppercase tracking-[0.3em] text-amber-100 font-bold px-2.5 py-1 rounded-full border border-amber-400/50 bg-amber-800/30">
-                Menu Spesial
-              </span>
-              <div className="my-auto flex flex-col items-center">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-amber-500/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 shadow-inner border border-amber-300/40">
-                  <Store className="w-8 h-8 sm:w-10 sm:h-10 text-amber-200" />
-                </div>
-                <h1 className="font-sans font-black text-xl sm:text-2xl text-white tracking-widest mb-2 px-2 drop-shadow">{restaurantName}</h1>
-                <div className="w-10 h-[2px] bg-amber-300 my-2"></div>
-                <p className="font-serif italic text-amber-100 text-[11px] tracking-wider">
-                  Sajian Lezat Khas Rumahan
-                </p>
-              </div>
-              <p className="text-[10px] text-amber-200 font-mono tracking-widest uppercase">
-                Geser untuk mulai memesan
-              </p>
-            </CoverPage>
+            <CoverPage number={1} restaurantName={restaurantName} />
 
             {/* 2. Selamat Datang */}
             <Page number={2}>
-              <div className="flex flex-col h-full justify-center text-center px-2 pt-4">
-                <UtensilsCrossed className="w-7 h-7 sm:w-8 sm:h-8 text-amber-600 mx-auto mb-3 opacity-90" />
-                <h3 className="font-sans font-bold text-lg sm:text-xl text-stone-900 mb-2 tracking-wide">Selamat Datang</h3>
-                <p className="text-stone-600 text-[11px] sm:text-xs leading-relaxed mb-3 font-serif">
+              <div className="flex flex-col h-full justify-center text-center px-3 pt-4">
+                <div className="w-12 h-12 bg-[#eef2e6] rounded-2xl flex items-center justify-center mx-auto mb-3 text-[#4b5d2d] shadow-xs border border-[#d8d2c4]">
+                  <UtensilsCrossed className="w-6 h-6" />
+                </div>
+                <h3 className="font-sans font-bold text-lg sm:text-xl text-stone-800 mb-2">Selamat Datang</h3>
+                <p className="text-stone-600 text-[11px] sm:text-xs leading-relaxed mb-4 font-serif px-2">
                   Kami menyajikan hidangan terbaik yang diolah dengan bahan-bahan segar pilihan berkualitas tinggi untuk kepuasan Anda.
                 </p>
-                <div className="text-[9px] sm:text-[10px] text-amber-700 uppercase tracking-widest font-mono font-semibold">
-                  Silakan geser halaman
+                <div className="inline-block mx-auto text-[10px] text-[#4b5d2d] bg-[#eef2e6] px-3 py-1 rounded-full uppercase tracking-wider font-mono font-semibold border border-[#d8d2c4]">
+                  Silakan geser halaman ➔
                 </div>
               </div>
-              <div className="text-right text-[9px] text-stone-400 font-mono">P. 2</div>
+              <div className="text-right text-[9px] text-stone-400 font-mono pr-3">P. 2</div>
             </Page>
 
             {/* 3. Daftar Kategori Menu */}
@@ -134,57 +268,87 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
               const pageNum = index + 3;
               return (
                 <Page key={index} number={pageNum}>
-                  <div className="pt-4">
-                    <div className="border-b border-amber-200 pb-2 mb-2 flex justify-between items-center">
-                      <h3 className="font-sans font-black text-base sm:text-lg text-amber-800 tracking-wider uppercase">{cat}</h3>
-                      <span className="text-[9px] sm:text-[10px] font-mono text-stone-400">P. {pageNum}</span>
+                  <div className="pt-1 flex flex-col h-full pr-2">
+                    <div className="border-b border-[#d8d2c4] pb-2 mb-2 flex justify-between items-center bg-[#f4f1ea]/80 px-2.5 rounded-lg shrink-0">
+                      <h3 className="font-sans font-bold text-base sm:text-lg text-[#3a4822] uppercase tracking-wide">{cat}</h3>
+                      <span className="text-[10px] font-mono text-[#556b2f] bg-white px-2 py-0.5 rounded shadow-2xs border border-[#d8d2c4]">P. {pageNum}</span>
                     </div>
 
-                    <div className="space-y-2.5 max-h-[330px] sm:max-h-[390px] overflow-y-auto pr-1">
+                    <div className="space-y-2.5 overflow-y-auto pr-3 flex-1 max-h-[390px]">
                       {items.length === 0 ? (
                         <p className="text-center py-8 text-stone-400 font-serif italic text-xs">Belum ada hidangan.</p>
                       ) : (
                         items.map((item) => {
-                          const isInCart = cart.some(cartItem => cartItem.id === item.id);
+                          const cartItem = cart.find(ci => ci.id === item.id);
+                          const currentQtyInCart = cartItem ? cartItem.qty : 0;
+                          
+                          let maxStock = 99;
+                          if (item.desc) {
+                            const match = item.desc.match(/(?:stok|tersedia)\D*(\d+)/i);
+                            if (match) maxStock = parseInt(match[1], 10);
+                          }
+
+                          const isOutOfStock = currentQtyInCart >= maxStock;
                           
                           return (
-                            <div key={item.id} className="bg-white/90 backdrop-blur-sm p-3 rounded-xl border border-amber-200/70 flex flex-col justify-between shadow-sm space-y-2">
+                            <div key={item.id} className="bg-white/95 backdrop-blur-xs p-3 rounded-xl border border-stone-200 flex flex-col justify-between shadow-2xs hover:shadow-sm transition-shadow space-y-2 cursor-default mr-2">
                               <div>
-                                <div className="flex justify-between items-start">
-                                  <h4 className="font-sans font-bold text-stone-900 text-xs sm:text-sm tracking-wide">{item.name}</h4>
-                                  <span className="font-bold text-orange-600 text-xs sm:text-sm">
+                                <div className="flex justify-between items-start gap-2">
+                                  <h4 className="font-sans font-bold text-stone-900 text-xs sm:text-sm leading-snug">{item.name}</h4>
+                                  <span className="font-bold text-[#4b5d2d] text-xs sm:text-sm whitespace-nowrap bg-[#eef2e6] px-2 py-0.5 rounded-md border border-[#d8d2c4]">
                                     {formatRupiah(item.price)}
                                   </span>
                                 </div>
-                                <p className="text-stone-600 text-[10px] sm:text-[11px] mt-1 line-clamp-2">{item.desc}</p>
+                                <p className="text-stone-500 text-[10px] sm:text-[11px] mt-0.5 line-clamp-2 leading-relaxed font-sans">{item.desc}</p>
                               </div>
                               
-                              {/* Tombol Ringkas di Kanan Bawah Card */}
-                              <div className="flex justify-end pt-1">
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    addToCart(item);
-                                  }}
-                                  className={`px-3.5 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold flex items-center space-x-1.5 transition-all duration-300 ease-out active:scale-95 shadow-sm ${
-                                    isInCart 
-                                      ? "bg-emerald-600 hover:bg-emerald-700 text-white" 
-                                      : "bg-amber-500 hover:bg-amber-600 text-white"
-                                  }`}
+                              <div className="flex justify-between items-center pt-1 border-t border-stone-100">
+                                <div className="flex items-center space-x-1 text-[10px] font-mono text-stone-600 bg-stone-50 px-2 py-0.5 rounded-md border border-stone-200">
+                                  <AlertCircle className="w-3 h-3 text-[#4b5d2d]" />
+                                  <span>Sisa: {Math.max(0, maxStock - currentQtyInCart)}</span>
+                                </div>
+
+                                <div 
+                                  className="mr-1"
+                                  onClick={stopEventPropagation}
+                                  onDoubleClick={stopEventPropagation}
+                                  onMouseDown={stopEventPropagation}
+                                  onMouseUp={stopEventPropagation}
+                                  onTouchStart={stopEventPropagation}
+                                  onTouchEnd={stopEventPropagation}
                                 >
-                                  {isInCart ? (
-                                    <>
-                                      <Check className="w-3.5 h-3.5 text-white" />
-                                      <span>Dipilih</span>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Plus className="w-3.5 h-3.5 text-white" />
-                                      <span>Pilih</span>
-                                    </>
-                                  )}
-                                </button>
+                                  <button
+                                    onClick={(e) => {
+                                      stopEventPropagation(e);
+                                      e.preventDefault();
+                                      if (!isOutOfStock) addToCart(item);
+                                    }}
+                                    disabled={isOutOfStock}
+                                    className={`px-3.5 py-1.5 rounded-xl text-[10px] sm:text-xs font-semibold flex items-center space-x-1.5 transition-all duration-300 shadow-sm cursor-pointer ${
+                                      isOutOfStock 
+                                        ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200" 
+                                        : cartItem 
+                                          ? "bg-gradient-to-r from-[#5f7935] to-[#4b5d2d] hover:from-[#52682e] hover:to-[#3d4c24] text-white shadow-md border border-[#72923f]/50 scale-102" 
+                                          : "bg-[#4b5d2d] hover:bg-[#3a4822] text-white active:scale-95 border border-[#5f7935]/40"
+                                    }`}
+                                  >
+                                    {isOutOfStock ? (
+                                      <span>Habis</span>
+                                    ) : cartItem ? (
+                                      <>
+                                        <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center">
+                                          <Check className="w-3 h-3 text-[#d4dfc7]" />
+                                        </div>
+                                        <span className="tracking-wide">Dipilih ({cartItem.qty})</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Plus className="w-3 h-3 text-white" />
+                                        <span className="tracking-wide">Pilih</span>
+                                      </>
+                                    )}
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           );
@@ -193,39 +357,67 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
                     </div>
                   </div>
 
-                  <div className="text-center text-[9px] sm:text-[10px] text-stone-400 font-mono tracking-widest uppercase pt-2 border-t border-amber-200/60">
+                  <div className="text-center text-[9px] sm:text-[10px] text-stone-400 font-mono tracking-wider uppercase pt-2 border-t border-stone-200 shrink-0 pr-3">
                     {restaurantName}
                   </div>
                 </Page>
               );
             })}
 
-            {/* 4. Halaman Penyeimbang */}
+            {/* 4. Halaman Penyeimbang 1 */}
             <Page number={categories.length + 3}>
-              <div className="flex flex-col h-full justify-center text-center px-2 pt-4">
-                <p className="font-serif italic text-stone-500 text-xs sm:text-sm">
-                  "Terima kasih telah mempercayakan pengalaman kuliner Anda kepada kami."
-                </p>
+              <div className="flex flex-col h-full justify-between py-6 px-4 text-center relative">
+                <div className="my-auto space-y-3 z-10 bg-white/80 backdrop-blur-xs p-4 rounded-2xl border border-stone-100 shadow-xs">
+                  <div className="w-12 h-12 bg-[#eef2e6] rounded-2xl flex items-center justify-center mx-auto text-[#4b5d2d] shadow-xs border border-[#d8d2c4]">
+                    <ChefHat className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-sans font-bold text-stone-800 text-sm tracking-wider uppercase">Dapur & Kualitas</h4>
+                  <div className="w-8 h-[2px] bg-[#61773a] mx-auto rounded-full"></div>
+                  <p className="font-serif italic text-stone-600 text-xs sm:text-sm leading-relaxed px-2">
+                    "Diracik langsung dari dapur hangat kami, memadukan resep otentik rumahan dengan standar kebersihan dan higienitas tinggi."
+                  </p>
+                </div>
+
+                <div className="flex justify-between items-center text-[9px] text-stone-400 font-mono pt-2 border-t border-stone-100 z-10 pr-3">
+                  <span>{restaurantName}</span>
+                  <span>P. {categories.length + 3}</span>
+                </div>
               </div>
-              <div className="text-right text-[9px] text-stone-400 font-mono">Note</div>
+            </Page>
+
+            {/* Halaman Penyeimbang 2 */}
+            <Page number={categories.length + 4}>
+              <div className="flex flex-col h-full justify-between py-6 px-4 text-center relative">
+                <div className="my-auto space-y-3 z-10 bg-white/80 backdrop-blur-xs p-4 rounded-2xl border border-stone-100 shadow-xs">
+                  <div className="w-12 h-12 bg-[#eef2e6] rounded-2xl flex items-center justify-center mx-auto text-[#4b5d2d] shadow-xs border border-[#d8d2c4]">
+                    <Soup className="w-6 h-6" />
+                  </div>
+                  <h4 className="font-sans font-bold text-stone-800 text-sm tracking-wider uppercase">Cita Rasa Istimewa</h4>
+                  <div className="w-8 h-[2px] bg-[#61773a] mx-auto rounded-full"></div>
+                  <p className="font-serif italic text-stone-600 text-xs sm:text-sm leading-relaxed px-2">
+                    "Setiap sajian menceritakan kehangatan keluarga. Terima kasih telah menjadikan kami bagian dari momen bersantap Anda."
+                  </p>
+                </div>
+
+                <div className="flex justify-between items-center text-[9px] text-stone-400 font-mono pt-2 border-t border-stone-100 z-10 pr-3">
+                  <span>Catatan</span>
+                  <span>P. {categories.length + 4}</span>
+                </div>
+              </div>
             </Page>
 
             {/* 5. Cover Belakang */}
-            <CoverPage number={categories.length + 4}>
-              <div className="my-auto flex flex-col items-center">
-                <h3 className="font-sans font-bold text-lg sm:text-xl text-white tracking-widest mb-2">TERIMA KASIH</h3>
-                <p className="font-serif italic text-amber-100 text-[11px] sm:text-xs max-w-xs mb-3">
-                  "Selamat menikmati hidangan, semoga hari Anda menyenangkan."
-                </p>
-                <div className="w-8 h-[1px] bg-amber-300 my-2"></div>
-              </div>
-              <p className="text-[9px] sm:text-[10px] text-amber-200 font-mono uppercase tracking-widest">
-                &copy; 2026 {restaurantName}
-              </p>
-            </CoverPage>
+            <BackCoverPage 
+              number={categories.length + 5} 
+              restaurantName={restaurantName} 
+              onWindyClose={handleWindyClose} 
+              isWindyClosing={isWindyClosing}
+              onStopPropagation={stopEventPropagation}
+            />
 
           </HTMLFlipBook>
         </div>
+
       </div>
     </div>
   );

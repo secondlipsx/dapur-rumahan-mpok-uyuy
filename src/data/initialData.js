@@ -1,9 +1,32 @@
-export const initialRestaurantName = 'Dapur Rumahan Bu Siti';
+export const initialRestaurantName = "Dapur Rumahan Mpok Uyuy";
 
 export const initialMenu = [
-  { id: 1, name: 'Nasi Liwet Spesial', price: 25000, category: 'Makanan Utama', desc: 'Disajikan dengan ikan asin, tahu, tempe, dan lalapan segar.' },
-  { id: 2, name: 'Ayam Goreng Lengkuas', price: 20000, category: 'Makanan Utama', desc: 'Ayam empuk dengan taburan lengkuas gurih khas rumahan.' },
-  { id: 3, name: 'Sayur Asem Segar', price: 10000, category: 'Makanan Utama', desc: 'Perpaduan rasa asam, manis, dan pedas yang menyegarkan.' },
-  { id: 4, name: 'Es Teh Manis', price: 5000, category: 'Minuman', desc: 'Teh melati asli dengan es batu yang pas.' },
-  { id: 5, name: 'Es Jeruk Peras', price: 8000, category: 'Minuman', desc: 'Jeruk murni diperas langsung, kaya Vitamin C.' },
+  {
+    id: 1,
+    name: "Udang Keju (Isi 4)",
+    category: "Frozen Food",
+    price: 15000,
+    desc: "Udang keju lezat isi 4 pcs. Stok tersedia: 7",
+  },
+  {
+    id: 2,
+    name: "Nagut Megalodon (Isi 3)",
+    category: "Frozen Food",
+    price: 10000,
+    desc: "Nagut megalodon gurih isi 3 pcs. Stok tersedia: 4",
+  },
+  {
+    id: 3,
+    name: "Nagut Megalodon (Isi 6)",
+    category: "Frozen Food",
+    price: 20000,
+    desc: "Nagut megalodon porsi puas isi 6 pcs. Stok tersedia: 1",
+  },
+  {
+    id: 4,
+    name: "Dimsum Goreng (Satuan)",
+    category: "Dimsum & Gorengan",
+    price: 5000,
+    desc: "Dimsum goreng renyah harga per pcs. Stok tersedia: 4",
+  }
 ];
