@@ -57,59 +57,60 @@ export default function Navbar({ restaurantName, viewMode, setViewMode, isAdminL
   return (
     <>
       <header className="sticky top-0 z-50 bg-[#fcfbf9]/95 backdrop-blur-md border-b border-[#e2dcd0] shadow-xs">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-4 py-3.5 grid grid-cols-3 items-center">
           
-          {/* Logo & Label Sederhana (Nama resto di navbar dihilangkan agar lega) */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#4b5d2d] to-[#273016] rounded-2xl flex items-center justify-center shadow-md border border-[#61773a]/40 shrink-0">
-              <Utensils className="w-4 h-4 text-[#d4dfc7]" />
-            </div>
-            <div>
-              <span className="block text-[8px] uppercase font-mono tracking-[0.2em] text-[#556b2f] font-bold">
-                Digital Menu
-              </span>
-              <span className="font-serif font-bold text-stone-900 text-sm sm:text-base tracking-wide">
-                Dapur Rumahan
-              </span>
+          {/* Kolom Kiri: Logo Ikon */}
+          <div className="flex items-center justify-start">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 bg-gradient-to-br from-[#4b5d2d] to-[#273016] rounded-2xl flex items-center justify-center shadow-md border border-[#61773a]/40">
+              <Utensils className="w-4 h-4 sm:w-5 sm:h-5 text-[#d4dfc7]" />
             </div>
           </div>
 
-          {/* Tombol Navigasi */}
-          <div className="flex items-center space-x-2 shrink-0 bg-[#f4f1ea] p-1.5 rounded-2xl border border-[#e2dcd0] shadow-inner">
-            <button
-              onClick={() => setViewMode('customer')}
-              className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center space-x-2 transition-all duration-300 cursor-pointer ${
-                viewMode === 'customer'
-                  ? 'bg-[#4b5d2d] text-white shadow-md'
-                  : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
-              }`}
-            >
-              <BookOpen className="w-4 h-4" />
-              <span className="hidden sm:inline">Buku Menu</span>
-            </button>
+          {/* Kolom Tengah: Teks MENU DIGITAL Besar & Elegan */}
+          <div className="text-center">
+            <h1 className="font-serif font-bold text-stone-900 text-base sm:text-xl uppercase tracking-[0.15em] sm:tracking-[0.2em]">
+              Menu Digital
+            </h1>
+          </div>
 
-            <button
-              onClick={handleKelolaClick}
-              className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center space-x-2 transition-all duration-300 cursor-pointer ${
-                viewMode === 'admin'
-                  ? 'bg-[#4b5d2d] text-white shadow-md'
-                  : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
-              }`}
-            >
-              <Settings className="w-4 h-4" />
-              <span className="hidden sm:inline">Kelola</span>
-            </button>
-
-            {isAdminLoggedIn && (
+          {/* Kolom Kanan: Tombol Navigasi */}
+          <div className="flex items-center justify-end space-x-1.5 sm:space-x-2">
+            <div className="flex items-center space-x-1.5 bg-[#f4f1ea] p-1.5 rounded-2xl border border-[#e2dcd0] shadow-inner">
               <button
-                onClick={handleLogout}
-                className="px-2.5 py-2 rounded-xl text-xs font-bold flex items-center space-x-1 bg-red-700 hover:bg-red-800 text-white transition-all shadow-sm cursor-pointer"
-                title="Keluar dari Admin"
+                onClick={() => setViewMode('customer')}
+                className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center space-x-1.5 transition-all duration-300 cursor-pointer ${
+                  viewMode === 'customer'
+                    ? 'bg-[#4b5d2d] text-white shadow-md'
+                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
+                }`}
               >
-                <LogOut className="w-4 h-4" />
-                <span className="hidden sm:inline">Keluar</span>
+                <BookOpen className="w-4 h-4" />
+                <span className="hidden md:inline">Buku Menu</span>
               </button>
-            )}
+
+              <button
+                onClick={handleKelolaClick}
+                className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center space-x-1.5 transition-all duration-300 cursor-pointer ${
+                  viewMode === 'admin'
+                    ? 'bg-[#4b5d2d] text-white shadow-md'
+                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
+                }`}
+              >
+                <Settings className="w-4 h-4" />
+                <span className="hidden md:inline">Kelola</span>
+              </button>
+
+              {isAdminLoggedIn && (
+                <button
+                  onClick={handleLogout}
+                  className="px-2.5 py-2 rounded-xl text-xs font-bold flex items-center space-x-1 bg-red-700 hover:bg-red-800 text-white transition-all shadow-sm cursor-pointer"
+                  title="Keluar dari Admin"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span className="hidden md:inline">Keluar</span>
+                </button>
+              )}
+            </div>
           </div>
 
         </div>

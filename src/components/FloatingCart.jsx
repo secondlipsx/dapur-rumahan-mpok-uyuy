@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShoppingCart, X, MessageCircle, Trash2, Plus, Minus } from 'lucide-react';
+import { ShoppingBag, X, MessageSquare, Trash2, Plus, Minus } from 'lucide-react';
 
 export default function FloatingCart({
   cart,
@@ -72,46 +72,54 @@ export default function FloatingCart({
 
   return (
     <>
-      {/* Tombol Melayang Keranjang */}
+      {/* Tombol Melayang Keranjang ala Fine Dining */}
       <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={() => setIsOpen(true)}
-          className="bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-2xl flex items-center justify-center relative transition-transform hover:scale-105 cursor-pointer"
+          className="bg-gradient-to-br from-[#4b5d2d] to-[#273016] text-[#d4dfc7] hover:text-white p-4 rounded-full shadow-[0_10px_25px_rgba(75,93,45,0.4)] flex items-center justify-center relative transition-all duration-300 hover:scale-110 border border-[#61773a]/50 cursor-pointer group"
+          title="Buka Keranjang Pesanan"
         >
-          <ShoppingCart size={24} />
+          <ShoppingBag size={22} className="transition-transform group-hover:-rotate-12" />
           {totalItems > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow-md animate-bounce">
+            <span className="absolute -top-1.5 -right-1.5 bg-[#859d58] text-stone-900 text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow-md border border-white animate-bounce font-mono">
               {totalItems}
             </span>
           )}
         </button>
       </div>
 
-      {/* Modal / Panel Keranjang */}
+      {/* Modal / Panel Keranjang Mewah */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex justify-end transition-opacity">
-          <div className="bg-white w-full max-w-md h-full shadow-2xl flex flex-col animate-slide-left">
+        <div className="fixed inset-0 bg-stone-950/70 backdrop-blur-sm z-50 flex justify-end transition-all animate-fadeIn">
+          <div className="bg-[#fcfbf9] w-full max-w-md h-full shadow-2xl flex flex-col border-l border-[#e2dcd0] animate-slide-left">
             
-            {/* Header Modal */}
-            <div className="bg-green-700 text-white p-4 flex justify-between items-center shadow-md">
-              <h2 className="text-lg font-bold flex items-center gap-2">
-                <ShoppingCart size={20} /> Keranjang Pesanan
-              </h2>
+            {/* Header Modal Elegan */}
+            <div className="bg-[#3a4822] text-white p-5 flex justify-between items-center shadow-md border-b border-[#4b5d2d]">
+              <div>
+                <span className="text-[9px] uppercase tracking-[0.25em] text-[#d4dfc7] font-mono font-semibold">
+                  Ringkasan Pesanan
+                </span>
+                <h2 className="font-serif font-bold text-lg text-white flex items-center gap-2 mt-0.5">
+                  <ShoppingBag size={18} className="text-[#859d58]" /> Keranjang Anda
+                </h2>
+              </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-green-800 p-2 rounded-full transition-colors cursor-pointer"
+                className="text-stone-300 hover:text-white p-2 rounded-xl hover:bg-white/10 transition-colors cursor-pointer"
               >
                 <X size={20} />
               </button>
             </div>
 
             {/* Isi Daftar Belanja */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-5 space-y-4">
               {cart.length === 0 ? (
-                <div className="text-center py-20 text-gray-400">
-                  <ShoppingCart size={48} className="mx-auto mb-3 opacity-30" />
-                  <p className="font-medium">Keranjang Anda masih kosong</p>
-                  <p className="text-sm">Yuk pilih menu favoritmu sekarang!</p>
+                <div className="text-center py-24 text-stone-400">
+                  <div className="w-16 h-16 bg-[#f4f1ea] rounded-3xl flex items-center justify-center mx-auto mb-4 border border-[#e2dcd0] text-stone-400">
+                    <ShoppingBag size={32} className="opacity-40" />
+                  </div>
+                  <p className="font-serif font-bold text-stone-700 text-base">Keranjang Anda masih kosong</p>
+                  <p className="text-xs text-stone-500 mt-1 font-serif">Silakan pilih menu lezat kami dari buku menu.</p>
                 </div>
               ) : (
                 <>
@@ -121,36 +129,38 @@ export default function FloatingCart({
                       if (item.fried) itemPrice += 2000;
 
                       return (
-                        <div key={item.cartId || index} className="bg-gray-50 border border-gray-200 rounded-xl p-3 shadow-sm">
-                          <div className="flex justify-between items-start">
+                        <div key={item.cartId || index} className="bg-white border border-[#e2dcd0] rounded-2xl p-4 shadow-2xs hover:shadow-sm transition-all space-y-3">
+                          <div className="flex justify-between items-start gap-2">
                             <div>
-                              <h4 className="font-bold text-gray-800">{item.name}</h4>
-                              <p className="text-sm font-semibold text-green-700">
-                                {formatRupiah(itemPrice)} {item.fried && <span className="text-xs text-orange-600 font-normal">(+Goreng)</span>}
+                              <h4 className="font-serif font-bold text-stone-900 text-sm sm:text-base leading-tight">
+                                {item.name}
+                              </h4>
+                              <p className="text-xs font-semibold text-[#4b5d2d] mt-0.5 font-mono">
+                                {formatRupiah(itemPrice)} {item.fried && <span className="text-[10px] text-amber-700 font-normal italic">(+Goreng)</span>}
                               </p>
                             </div>
                             <button 
                               onClick={() => removeFromCart(item.cartId)}
-                              className="text-red-400 hover:text-red-600 p-1 transition-colors cursor-pointer"
+                              className="text-stone-400 hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
                               title="Hapus item"
                             >
-                              <Trash2 size={16} />
+                              <Trash2 size={15} />
                             </button>
                           </div>
 
                           {/* Tombol Kuantitas & Opsi Goreng */}
-                          <div className="mt-3 flex items-center justify-between border-t border-gray-200 pt-2">
-                            <div className="flex items-center gap-2">
+                          <div className="flex items-center justify-between border-t border-stone-100 pt-2.5">
+                            <div className="flex items-center gap-2 bg-[#f4f1ea] p-1 rounded-xl border border-[#e2dcd0]">
                               <button
                                 onClick={() => updateQuantity(item.cartId, item.qty - 1)}
-                                className="bg-gray-200 hover:bg-gray-300 text-gray-700 w-7 h-7 rounded-lg flex items-center justify-center font-bold transition-colors cursor-pointer"
+                                className="bg-white hover:bg-stone-200 text-stone-700 w-7 h-7 rounded-lg flex items-center justify-center shadow-2xs transition-colors cursor-pointer font-bold"
                               >
                                 <Minus size={12} />
                               </button>
-                              <span className="font-bold text-sm w-6 text-center">{item.qty}</span>
+                              <span className="font-mono font-bold text-sm w-6 text-center text-stone-800">{item.qty}</span>
                               <button
                                 onClick={() => updateQuantity(item.cartId, item.qty + 1)}
-                                className="bg-green-600 hover:bg-green-700 text-white w-7 h-7 rounded-lg flex items-center justify-center font-bold transition-colors cursor-pointer"
+                                className="bg-[#4b5d2d] hover:bg-[#3a4822] text-white w-7 h-7 rounded-lg flex items-center justify-center shadow-2xs transition-colors cursor-pointer font-bold"
                               >
                                 <Plus size={12} />
                               </button>
@@ -158,12 +168,12 @@ export default function FloatingCart({
 
                             {/* Opsi Goreng jika tersedia */}
                             {item.allowFried && (
-                              <label className="flex items-center gap-1.5 text-xs font-medium text-gray-700 cursor-pointer bg-orange-50 border border-orange-200 px-2 py-1 rounded-lg">
+                              <label className="flex items-center gap-1.5 text-[11px] font-medium text-stone-700 cursor-pointer bg-amber-50 border border-amber-200/60 px-2.5 py-1 rounded-xl">
                                 <input
                                   type="checkbox"
                                   checked={item.fried || false}
                                   onChange={() => toggleFried(item.cartId)}
-                                  className="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5 cursor-pointer"
+                                  className="rounded text-[#4b5d2d] focus:ring-[#4b5d2d] w-3.5 h-3.5 cursor-pointer"
                                 />
                                 Goreng (+2rb)
                               </label>
@@ -171,13 +181,13 @@ export default function FloatingCart({
                           </div>
 
                           {/* Catatan Item Khusus */}
-                          <div className="mt-2">
+                          <div>
                             <input
                               type="text"
-                              placeholder="Catatan khusus menu ini (cth: saus pisah)..."
+                              placeholder="Catatan khusus menu (cth: saus pisah)..."
                               value={item.note || ''}
                               onChange={(e) => updateItemNote(item.cartId, e.target.value)}
-                              className="w-full text-xs bg-white border border-gray-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-green-600"
+                              className="w-full text-xs bg-[#fcfbf9] border border-[#e2dcd0] rounded-xl px-3 py-2 text-stone-800 placeholder-stone-400 focus:outline-none focus:border-[#4b5d2d] font-serif"
                             />
                           </div>
                         </div>
@@ -186,66 +196,66 @@ export default function FloatingCart({
                   </div>
 
                   {/* Tombol Kosongkan Keranjang */}
-                  <div className="text-right">
+                  <div className="text-right pt-1">
                     <button
                       onClick={clearCart}
-                      className="text-xs text-red-500 hover:text-red-700 font-semibold underline cursor-pointer"
+                      className="text-xs text-stone-500 hover:text-red-600 font-serif underline transition-colors cursor-pointer"
                     >
-                      Kosongkan Seluruh Keranjang
+                      Kosongkan Keranjang
                     </button>
                   </div>
 
-                  {/* Form Pemesan */}
-                  <form onSubmit={handleCheckout} className="space-y-3 pt-4 border-t border-gray-200">
-                    <h3 className="font-bold text-gray-800 text-sm">Informasi Pemesan</h3>
+                  {/* Form Pemesan Bergaya Klasik Mewah */}
+                  <form onSubmit={handleCheckout} className="space-y-3.5 pt-4 border-t border-[#e2dcd0]">
+                    <h3 className="font-serif font-bold text-stone-800 text-sm tracking-wide">Informasi Pemesan</h3>
                     
                     <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Nama Pemesan *</label>
+                      <label className="block text-[11px] font-semibold text-stone-600 mb-1">Nama Pemesan *</label>
                       <input
                         type="text"
                         required
                         placeholder="Contoh: Taufiq Ismail"
                         value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)}
-                        className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-green-600"
+                        className="w-full text-sm bg-white border border-[#e2dcd0] rounded-xl px-3 py-2.5 text-stone-800 focus:outline-none focus:border-[#4b5d2d] shadow-2xs font-serif"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Catatan / Lokasi Pengiriman *</label>
+                      <label className="block text-[11px] font-semibold text-stone-600 mb-1">Catatan / Lokasi Pengiriman *</label>
                       <input
                         type="text"
                         required
                         placeholder="Contoh: Kantor / Meja 3"
                         value={orderNote}
                         onChange={(e) => setOrderNote(e.target.value)}
-                        className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-green-600"
+                        className="w-full text-sm bg-white border border-[#e2dcd0] rounded-xl px-3 py-2.5 text-stone-800 focus:outline-none focus:border-[#4b5d2d] shadow-2xs font-serif"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Catatan Umum (Opsional)</label>
+                      <label className="block text-[11px] font-semibold text-stone-600 mb-1">Catatan Umum (Opsional)</label>
                       <input
                         type="text"
                         placeholder="Contoh: Tolong siapkan sendok ekstra"
                         value={generalRequest}
                         onChange={(e) => setGeneralRequest(e.target.value)}
-                        className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:border-green-600"
+                        className="w-full text-sm bg-white border border-[#e2dcd0] rounded-xl px-3 py-2.5 text-stone-800 focus:outline-none focus:border-[#4b5d2d] shadow-2xs font-serif"
                       />
                     </div>
 
                     {/* Total Harga & Tombol Kirim WhatsApp */}
-                    <div className="pt-2">
-                      <div className="flex justify-between items-center mb-3 bg-green-50 p-3 rounded-xl border border-green-200">
-                        <span className="font-bold text-gray-700 text-sm">Total Pembayaran:</span>
-                        <span className="font-extrabold text-green-700 text-lg">{formatRupiah(totalPrice)}</span>
+                    <div className="pt-3">
+                      <div className="flex justify-between items-center mb-4 bg-[#f4f1ea] p-3.5 rounded-2xl border border-[#e2dcd0]">
+                        <span className="font-serif font-bold text-stone-700 text-sm">Total Pembayaran:</span>
+                        <span className="font-serif font-extrabold text-[#4b5d2d] text-lg font-mono">{formatRupiah(totalPrice)}</span>
                       </div>
 
                       <button
                         type="submit"
-                        className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-transform hover:scale-[1.02] cursor-pointer"
+                        className="w-full bg-[#4b5d2d] hover:bg-[#3a4822] text-white font-bold py-3.5 px-4 rounded-2xl shadow-lg flex items-center justify-center gap-2.5 transition-all transform hover:scale-[1.01] active:scale-95 cursor-pointer border border-[#61773a]/40"
                       >
-                        <MessageCircle size={20} /> Kirim Pesanan via WhatsApp
+                        <MessageSquare size={18} /> Kirim Pesanan via WhatsApp
                       </button>
                     </div>
                   </form>

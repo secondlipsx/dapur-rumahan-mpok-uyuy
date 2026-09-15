@@ -136,13 +136,19 @@ const BackCoverPage = React.forwardRef((props, ref) => {
 
 export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah, cart = [] }) {
   const bookRef = useRef();
-  const categories = [...new Set(menu.map(item => item.category))];
+
+  // Membagi menu menjadi beberapa halaman (Tepat 3 menu per halaman)
+  const ITEMS_PER_PAGE = 3;
+  const menuPages = [];
+  for (let i = 0; i < menu.length; i += ITEMS_PER_PAGE) {
+    menuPages.push(menu.slice(i, i + ITEMS_PER_PAGE));
+  }
 
   const [isWindyClosing, setIsWindyClosing] = useState(false);
 
   const [pageSize, setPageSize] = useState({
     width: window.innerWidth < 768 ? 320 : 380,
-    height: window.innerWidth < 768 ? 480 : 540,
+    height: window.innerWidth < 768 ? 500 : 580,
     isMobile: window.innerWidth < 768
   });
 
@@ -151,7 +157,7 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
       const mobile = window.innerWidth < 768;
       setPageSize({
         width: mobile ? Math.min(window.innerWidth - 40, 340) : 380,
-        height: mobile ? 480 : 540,
+        height: mobile ? 500 : 580,
         isMobile: mobile
       });
     };
@@ -223,8 +229,8 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
             size="stretch"
             minWidth={260}
             maxWidth={450}
-            minHeight={380}
-            maxHeight={650}
+            minHeight={400}
+            maxHeight={700}
             maxShadowOpacity={0.25}
             showCover={true}
             mobileScrollSupport={false}
@@ -245,40 +251,42 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
             {/* 1. Cover Depan */}
             <CoverPage number={1} restaurantName={restaurantName} />
 
-            {/* 2. Selamat Datang */}
+            {/* 2. Halaman Selamat Datang */}
             <Page number={2}>
               <div className="flex flex-col h-full justify-center text-center px-3 pt-4">
-                <div className="w-12 h-12 bg-[#eef2e6] rounded-2xl flex items-center justify-center mx-auto mb-3 text-[#4b5d2d] shadow-xs border border-[#d8d2c4]">
-                  <UtensilsCrossed className="w-6 h-6" />
+                <div className="w-14 h-14 bg-[#eef2e6] rounded-2xl flex items-center justify-center mx-auto mb-3 text-[#4b5d2d] shadow-xs border border-[#d8d2c4]">
+                  <UtensilsCrossed className="w-7 h-7" />
                 </div>
-                <h3 className="font-sans font-bold text-lg sm:text-xl text-stone-800 mb-2">Selamat Datang</h3>
-                <p className="text-stone-600 text-[11px] sm:text-xs leading-relaxed mb-4 font-serif px-2">
+                <h3 className="font-sans font-bold text-xl text-stone-900 mb-2">Selamat Datang</h3>
+                <p className="text-stone-600 text-xs sm:text-sm leading-relaxed mb-4 font-serif px-2">
                   Kami menyajikan hidangan terbaik yang diolah dengan bahan-bahan segar pilihan berkualitas tinggi untuk kepuasan Anda.
                 </p>
-                <div className="inline-block mx-auto text-[10px] text-[#4b5d2d] bg-[#eef2e6] px-3 py-1 rounded-full uppercase tracking-wider font-mono font-semibold border border-[#d8d2c4]">
+                <div className="inline-block mx-auto text-[11px] text-[#4b5d2d] bg-[#eef2e6] px-3.5 py-1.5 rounded-full uppercase tracking-wider font-mono font-semibold border border-[#d8d2c4]">
                   Silakan geser halaman ➔
                 </div>
               </div>
-              <div className="text-right text-[9px] text-stone-400 font-mono pr-3">P. 2</div>
+              <div className="text-right text-[10px] text-stone-400 font-mono pr-3">P. 2</div>
             </Page>
 
-            {/* 3. Daftar Kategori Menu */}
-            {categories.map((cat, index) => {
-              const items = menu.filter(item => item.category === cat);
+            {/* 3. Lembaran Menu (Tepat 3 Menu Per Halaman, Posisi Proporsional) */}
+            {menuPages.map((pageItems, index) => {
               const pageNum = index + 3;
               return (
                 <Page key={index} number={pageNum}>
-                  <div className="pt-1 flex flex-col h-full pr-2">
-                    <div className="border-b border-[#d8d2c4] pb-2 mb-2 flex justify-between items-center bg-[#f4f1ea]/80 px-2.5 rounded-lg shrink-0">
-                      <h3 className="font-sans font-bold text-base sm:text-lg text-[#3a4822] uppercase tracking-wide">{cat}</h3>
-                      <span className="text-[10px] font-mono text-[#556b2f] bg-white px-2 py-0.5 rounded shadow-2xs border border-[#d8d2c4]">P. {pageNum}</span>
-                    </div>
+                  <div className="pt-2 flex flex-col h-full pr-1 justify-between pb-1">
+                    <div>
+                      <div className="border-b border-[#d8d2c4] pb-2 mb-3.5 flex justify-between items-center bg-[#f4f1ea]/80 px-3 rounded-lg shrink-0 shadow-2xs">
+                        <h3 className="font-sans font-bold text-sm sm:text-base text-[#3a4822] uppercase tracking-wide">
+                          Daftar Menu (Hal {index + 1})
+                        </h3>
+                        <span className="text-[10px] font-mono text-[#556b2f] bg-white px-2.5 py-0.5 rounded shadow-2xs border border-[#d8d2c4]">
+                          P. {pageNum}
+                        </span>
+                      </div>
 
-                    <div className="space-y-2.5 overflow-y-auto pr-3 flex-1 max-h-[390px]">
-                      {items.length === 0 ? (
-                        <p className="text-center py-8 text-stone-400 font-serif italic text-xs">Belum ada hidangan.</p>
-                      ) : (
-                        items.map((item) => {
+                      {/* Kontainer 3 Menu */}
+                      <div className="space-y-3.5">
+                        {pageItems.map((item) => {
                           const cartItem = cart.find(ci => ci.id === item.id);
                           const currentQtyInCart = cartItem ? cartItem.qty : 0;
                           
@@ -291,25 +299,28 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
                           const isOutOfStock = currentQtyInCart >= maxStock;
                           
                           return (
-                            <div key={item.id} className="bg-white/95 backdrop-blur-xs p-3 rounded-xl border border-stone-200 flex flex-col justify-between shadow-2xs hover:shadow-sm transition-shadow space-y-2 cursor-default mr-2">
+                            <div key={item.id} className="bg-white/95 backdrop-blur-xs p-3.5 rounded-xl border border-stone-200 flex flex-col justify-between shadow-2xs hover:shadow-sm transition-shadow space-y-2 cursor-default mr-1">
                               <div>
                                 <div className="flex justify-between items-start gap-2">
-                                  <h4 className="font-sans font-bold text-stone-900 text-xs sm:text-sm leading-snug">{item.name}</h4>
-                                  <span className="font-bold text-[#4b5d2d] text-xs sm:text-sm whitespace-nowrap bg-[#eef2e6] px-2 py-0.5 rounded-md border border-[#d8d2c4]">
+                                  <h4 className="font-sans font-bold text-stone-900 text-sm sm:text-base leading-snug">
+                                    {item.name}
+                                  </h4>
+                                  <span className="font-bold text-[#4b5d2d] text-xs sm:text-sm whitespace-nowrap bg-[#eef2e6] px-2.5 py-1 rounded-md border border-[#d8d2c4]">
                                     {formatRupiah(item.price)}
                                   </span>
                                 </div>
-                                <p className="text-stone-500 text-[10px] sm:text-[11px] mt-0.5 line-clamp-2 leading-relaxed font-sans">{item.desc}</p>
+                                <p className="text-stone-600 text-xs sm:text-sm mt-1 line-clamp-2 leading-relaxed font-sans">
+                                  {item.desc}
+                                </p>
                               </div>
                               
-                              <div className="flex justify-between items-center pt-1 border-t border-stone-100">
-                                <div className="flex items-center space-x-1 text-[10px] font-mono text-stone-600 bg-stone-50 px-2 py-0.5 rounded-md border border-stone-200">
-                                  <AlertCircle className="w-3 h-3 text-[#4b5d2d]" />
-                                  <span>Sisa: {Math.max(0, maxStock - currentQtyInCart)}</span>
+                              <div className="flex justify-between items-center pt-1.5 border-t border-stone-100">
+                                <div className="flex items-center space-x-1 text-[11px] font-mono text-stone-600 bg-stone-50 px-2.5 py-1 rounded-md border border-stone-200">
+                                  <AlertCircle className="w-3.5 h-3.5 text-[#4b5d2d]" />
+                                  <span>Sisa: <strong className="text-stone-800">{Math.max(0, maxStock - currentQtyInCart)}</strong></span>
                                 </div>
 
                                 <div 
-                                  className="mr-1"
                                   onClick={stopEventPropagation}
                                   onDoubleClick={stopEventPropagation}
                                   onMouseDown={stopEventPropagation}
@@ -324,7 +335,7 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
                                       if (!isOutOfStock) addToCart(item);
                                     }}
                                     disabled={isOutOfStock}
-                                    className={`px-3.5 py-1.5 rounded-xl text-[10px] sm:text-xs font-semibold flex items-center space-x-1.5 transition-all duration-300 shadow-sm cursor-pointer ${
+                                    className={`px-4 py-1.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center space-x-1.5 transition-all duration-300 shadow-sm cursor-pointer ${
                                       isOutOfStock 
                                         ? "bg-stone-100 text-stone-400 cursor-not-allowed border border-stone-200" 
                                         : cartItem 
@@ -343,7 +354,7 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
                                       </>
                                     ) : (
                                       <>
-                                        <Plus className="w-3 h-3 text-white" />
+                                        <Plus className="w-3.5 h-3.5 text-white" />
                                         <span className="tracking-wide">Pilih</span>
                                       </>
                                     )}
@@ -352,22 +363,22 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
                               </div>
                             </div>
                           );
-                        })
-                      )}
+                        })}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="text-center text-[9px] sm:text-[10px] text-stone-400 font-mono tracking-wider uppercase pt-2 border-t border-stone-200 shrink-0 pr-3">
-                    {restaurantName}
+                    <div className="text-center text-[10px] text-stone-400 font-mono tracking-wider uppercase pt-3 border-t border-stone-200 shrink-0 mt-2">
+                      {restaurantName}
+                    </div>
                   </div>
                 </Page>
               );
             })}
 
-            {/* 4. Halaman Penyeimbang 1 */}
-            <Page number={categories.length + 3}>
+            {/* Halaman Penyeimbang 1 */}
+            <Page number={menuPages.length + 3}>
               <div className="flex flex-col h-full justify-between py-6 px-4 text-center relative">
-                <div className="my-auto space-y-3 z-10 bg-white/80 backdrop-blur-xs p-4 rounded-2xl border border-stone-100 shadow-xs">
+                <div className="my-auto space-y-3 z-10 bg-white/80 backdrop-blur-xs p-5 rounded-2xl border border-stone-100 shadow-xs">
                   <div className="w-12 h-12 bg-[#eef2e6] rounded-2xl flex items-center justify-center mx-auto text-[#4b5d2d] shadow-xs border border-[#d8d2c4]">
                     <ChefHat className="w-6 h-6" />
                   </div>
@@ -378,17 +389,17 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
                   </p>
                 </div>
 
-                <div className="flex justify-between items-center text-[9px] text-stone-400 font-mono pt-2 border-t border-stone-100 z-10 pr-3">
+                <div className="flex justify-between items-center text-[10px] text-stone-400 font-mono pt-2 border-t border-stone-100 z-10 pr-2">
                   <span>{restaurantName}</span>
-                  <span>P. {categories.length + 3}</span>
+                  <span>P. {menuPages.length + 3}</span>
                 </div>
               </div>
             </Page>
 
             {/* Halaman Penyeimbang 2 */}
-            <Page number={categories.length + 4}>
+            <Page number={menuPages.length + 4}>
               <div className="flex flex-col h-full justify-between py-6 px-4 text-center relative">
-                <div className="my-auto space-y-3 z-10 bg-white/80 backdrop-blur-xs p-4 rounded-2xl border border-stone-100 shadow-xs">
+                <div className="my-auto space-y-3 z-10 bg-white/80 backdrop-blur-xs p-5 rounded-2xl border border-stone-100 shadow-xs">
                   <div className="w-12 h-12 bg-[#eef2e6] rounded-2xl flex items-center justify-center mx-auto text-[#4b5d2d] shadow-xs border border-[#d8d2c4]">
                     <Soup className="w-6 h-6" />
                   </div>
@@ -399,16 +410,16 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
                   </p>
                 </div>
 
-                <div className="flex justify-between items-center text-[9px] text-stone-400 font-mono pt-2 border-t border-stone-100 z-10 pr-3">
+                <div className="flex justify-between items-center text-[10px] text-stone-400 font-mono pt-2 border-t border-stone-100 z-10 pr-2">
                   <span>Catatan</span>
-                  <span>P. {categories.length + 4}</span>
+                  <span>P. {menuPages.length + 4}</span>
                 </div>
               </div>
             </Page>
 
-            {/* 5. Cover Belakang */}
+            {/* 4. Cover Belakang */}
             <BackCoverPage 
-              number={categories.length + 5} 
+              number={menuPages.length + 5} 
               restaurantName={restaurantName} 
               onWindyClose={handleWindyClose} 
               isWindyClosing={isWindyClosing}
