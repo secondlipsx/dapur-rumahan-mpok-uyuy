@@ -95,7 +95,7 @@ const BackCoverPage = React.forwardRef((props, ref) => {
 
       <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-black/50 to-transparent pointer-events-none z-20" />
 
-      <div className="relative z-20 h-full flex flex-col justify-between items-center text-center py-6">
+      <div className="relative z-30 h-full flex flex-col justify-between items-center text-center py-6">
         <div className="my-auto flex flex-col items-center w-full px-4">
           <div className="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-4 shadow-xl border border-white/20">
             <UtensilsCrossed className="w-7 h-7 text-[#d4dfc7]" />
@@ -106,10 +106,19 @@ const BackCoverPage = React.forwardRef((props, ref) => {
           </p>
           <div className="w-16 h-[1.5px] bg-[#859d58] rounded-full mb-6"></div>
           
-          {/* Tombol Tutup Buku Menu */}
-          <div className="w-full flex justify-center">
+          {/* Tombol Tutup Buku Menu dengan Proteksi Event Lengkap */}
+          <div 
+            className="w-full flex justify-center pointer-events-auto"
+            onClick={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+          >
             <button
-              onClick={props.onWindyClose}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (props.onWindyClose) props.onWindyClose(e);
+              }}
               disabled={props.isWindyClosing}
               className="px-6 py-3 bg-[#61773a] hover:bg-[#526531] text-white rounded-xl text-xs font-bold uppercase tracking-[0.2em] shadow-xl border border-[#7a954a] transition-all active:scale-95 cursor-pointer w-full max-w-[240px] font-serif"
             >
