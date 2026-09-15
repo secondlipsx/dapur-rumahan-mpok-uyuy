@@ -1,4 +1,4 @@
-export const initialRestaurantName = "Dapur Rumahan Mpok Uyuy";
+export const initialRestaurantName = "Dapur Rumahan Mama Arkan";
 
 export const initialMenu = [
   {
