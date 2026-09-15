@@ -221,7 +221,7 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
             usePortrait={pageSize.isMobile}
             startPage={0}
             drawShadow={true}
-            flippingTime={400}
+            flippingTime={250}
             swipeDistance={50}
             clickEventForward={false}
             useMouseEvents={true}
