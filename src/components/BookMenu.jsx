@@ -177,15 +177,12 @@ export default function BookMenu({ restaurantName, menu, addToCart, formatRupiah
 
     setIsWindyClosing(true);
 
-    const windInterval = setInterval(() => {
-      const currentPage = flip.getCurrentPageIndex();
-      if (currentPage > 0) {
-        flip.flipPrev();
-      } else {
-        clearInterval(windInterval);
-        setIsWindyClosing(false);
-      }
-    }, 200);
+    // Langsung balik ke halaman depan (halaman 0) secara instan tanpa jeda per halaman
+    flip.turn(0);
+    
+    setTimeout(() => {
+      setIsWindyClosing(false);
+    }, 400);
   };
 
   const handlePageFlip = (e) => {
