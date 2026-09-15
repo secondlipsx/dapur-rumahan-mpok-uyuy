@@ -57,57 +57,56 @@ export default function Navbar({ restaurantName, viewMode, setViewMode, isAdminL
   return (
     <>
       <header className="sticky top-0 z-50 bg-[#fcfbf9]/95 backdrop-blur-md border-b border-[#e2dcd0] shadow-xs">
-        {/* Menggunakan flex-col agar di HP tersusun vertikal dan tidak terpotong */}
-        <div className="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           
-          {/* Logo & Nama Restoran (Full tanpa terpotong) */}
-          <div className="flex items-center space-x-3 w-full sm:w-auto min-w-0 justify-start">
+          {/* Logo & Label Sederhana (Nama resto di navbar dihilangkan agar lega) */}
+          <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-[#4b5d2d] to-[#273016] rounded-2xl flex items-center justify-center shadow-md border border-[#61773a]/40 shrink-0">
               <Utensils className="w-4 h-4 text-[#d4dfc7]" />
             </div>
-            <div className="min-w-0 flex-1">
+            <div>
               <span className="block text-[8px] uppercase font-mono tracking-[0.2em] text-[#556b2f] font-bold">
-                Fine Dining & Resto
+                Digital Menu
               </span>
-              <h1 className="font-serif font-bold text-stone-900 text-base sm:text-xl tracking-wide break-words leading-tight">
-                {restaurantName}
-              </h1>
+              <span className="font-serif font-bold text-stone-900 text-sm sm:text-base tracking-wide">
+                Dapur Rumahan
+              </span>
             </div>
           </div>
 
-          {/* Tombol Navigasi (Memanjang rapi di bawah pada layar HP) */}
-          <div className="flex items-center space-x-2 shrink-0 bg-[#f4f1ea] p-1.5 rounded-2xl border border-[#e2dcd0] shadow-inner w-full sm:w-auto justify-center">
+          {/* Tombol Navigasi */}
+          <div className="flex items-center space-x-2 shrink-0 bg-[#f4f1ea] p-1.5 rounded-2xl border border-[#e2dcd0] shadow-inner">
             <button
               onClick={() => setViewMode('customer')}
-              className={`flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center justify-center space-x-2 transition-all duration-300 cursor-pointer ${
+              className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center space-x-2 transition-all duration-300 cursor-pointer ${
                 viewMode === 'customer'
                   ? 'bg-[#4b5d2d] text-white shadow-md'
                   : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
               }`}
             >
-              <BookOpen className="w-4 h-4 shrink-0" />
-              <span>Buku Menu</span>
+              <BookOpen className="w-4 h-4" />
+              <span className="hidden sm:inline">Buku Menu</span>
             </button>
 
             <button
               onClick={handleKelolaClick}
-              className={`flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center justify-center space-x-2 transition-all duration-300 cursor-pointer ${
+              className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider flex items-center space-x-2 transition-all duration-300 cursor-pointer ${
                 viewMode === 'admin'
                   ? 'bg-[#4b5d2d] text-white shadow-md'
                   : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/50'
               }`}
             >
-              <Settings className="w-4 h-4 shrink-0" />
-              <span>Kelola</span>
+              <Settings className="w-4 h-4" />
+              <span className="hidden sm:inline">Kelola</span>
             </button>
 
             {isAdminLoggedIn && (
               <button
                 onClick={handleLogout}
-                className="px-3 py-2 rounded-xl text-xs font-bold flex items-center justify-center space-x-1 bg-red-700 hover:bg-red-800 text-white transition-all shadow-sm cursor-pointer"
+                className="px-2.5 py-2 rounded-xl text-xs font-bold flex items-center space-x-1 bg-red-700 hover:bg-red-800 text-white transition-all shadow-sm cursor-pointer"
                 title="Keluar dari Admin"
               >
-                <LogOut className="w-4 h-4 shrink-0" />
+                <LogOut className="w-4 h-4" />
                 <span className="hidden sm:inline">Keluar</span>
               </button>
             )}

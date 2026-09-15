@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaShoppingCart, FaTimes, FaWhatsapp, FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
+import { ShoppingCart, X, MessageCircle, Trash2, Plus, Minus } from 'lucide-react';
 
 export default function FloatingCart({
   cart,
@@ -76,9 +76,9 @@ export default function FloatingCart({
       <div className="fixed bottom-6 right-6 z-50">
         <button
           onClick={() => setIsOpen(true)}
-          className="bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-2xl flex items-center justify-center relative transition-transform hover:scale-105"
+          className="bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-2xl flex items-center justify-center relative transition-transform hover:scale-105 cursor-pointer"
         >
-          <FaShoppingCart size={24} />
+          <ShoppingCart size={24} />
           {totalItems > 0 && (
             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow-md animate-bounce">
               {totalItems}
@@ -95,13 +95,13 @@ export default function FloatingCart({
             {/* Header Modal */}
             <div className="bg-green-700 text-white p-4 flex justify-between items-center shadow-md">
               <h2 className="text-lg font-bold flex items-center gap-2">
-                <FaShoppingCart /> Keranjang Pesanan
+                <ShoppingCart size={20} /> Keranjang Pesanan
               </h2>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="text-white hover:bg-green-800 p-2 rounded-full transition-colors"
+                className="text-white hover:bg-green-800 p-2 rounded-full transition-colors cursor-pointer"
               >
-                <FaTimes size={20} />
+                <X size={20} />
               </button>
             </div>
 
@@ -109,7 +109,7 @@ export default function FloatingCart({
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               {cart.length === 0 ? (
                 <div className="text-center py-20 text-gray-400">
-                  <FaShoppingCart size={48} className="mx-auto mb-3 opacity-30" />
+                  <ShoppingCart size={48} className="mx-auto mb-3 opacity-30" />
                   <p className="font-medium">Keranjang Anda masih kosong</p>
                   <p className="text-sm">Yuk pilih menu favoritmu sekarang!</p>
                 </div>
@@ -131,10 +131,10 @@ export default function FloatingCart({
                             </div>
                             <button 
                               onClick={() => removeFromCart(item.cartId)}
-                              className="text-red-400 hover:text-red-600 p-1 transition-colors"
+                              className="text-red-400 hover:text-red-600 p-1 transition-colors cursor-pointer"
                               title="Hapus item"
                             >
-                              <FaTrash size={14} />
+                              <Trash2 size={16} />
                             </button>
                           </div>
 
@@ -143,16 +143,16 @@ export default function FloatingCart({
                             <div className="flex items-center gap-2">
                               <button
                                 onClick={() => updateQuantity(item.cartId, item.qty - 1)}
-                                className="bg-gray-200 hover:bg-gray-300 text-gray-700 w-7 h-7 rounded-lg flex items-center justify-center font-bold transition-colors"
+                                className="bg-gray-200 hover:bg-gray-300 text-gray-700 w-7 h-7 rounded-lg flex items-center justify-center font-bold transition-colors cursor-pointer"
                               >
-                                <FaMinus size={10} />
+                                <Minus size={12} />
                               </button>
                               <span className="font-bold text-sm w-6 text-center">{item.qty}</span>
                               <button
                                 onClick={() => updateQuantity(item.cartId, item.qty + 1)}
-                                className="bg-green-600 hover:bg-green-700 text-white w-7 h-7 rounded-lg flex items-center justify-center font-bold transition-colors"
+                                className="bg-green-600 hover:bg-green-700 text-white w-7 h-7 rounded-lg flex items-center justify-center font-bold transition-colors cursor-pointer"
                               >
-                                <FaPlus size={10} />
+                                <Plus size={12} />
                               </button>
                             </div>
 
@@ -163,7 +163,7 @@ export default function FloatingCart({
                                   type="checkbox"
                                   checked={item.fried || false}
                                   onChange={() => toggleFried(item.cartId)}
-                                  className="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5"
+                                  className="rounded text-orange-600 focus:ring-orange-500 w-3.5 h-3.5 cursor-pointer"
                                 />
                                 Goreng (+2rb)
                               </label>
@@ -189,7 +189,7 @@ export default function FloatingCart({
                   <div className="text-right">
                     <button
                       onClick={clearCart}
-                      className="text-xs text-red-500 hover:text-red-700 font-semibold underline"
+                      className="text-xs text-red-500 hover:text-red-700 font-semibold underline cursor-pointer"
                     >
                       Kosongkan Seluruh Keranjang
                     </button>
@@ -243,9 +243,9 @@ export default function FloatingCart({
 
                       <button
                         type="submit"
-                        className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-transform hover:scale-[1.02]"
+                        className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-transform hover:scale-[1.02] cursor-pointer"
                       >
-                        <FaWhatsapp size={20} /> Kirim Pesanan via WhatsApp
+                        <MessageCircle size={20} /> Kirim Pesanan via WhatsApp
                       </button>
                     </div>
                   </form>
