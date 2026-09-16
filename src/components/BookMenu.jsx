@@ -586,48 +586,72 @@ export default function BookMenu({
       }
     }
 
-    const flip = bookRef.current?.pageFlip();
-    if (!flip) return;
-
-    const currentPage = flip.getCurrentPageIndex();
-    if (currentPage <= 0) return;
+    const flipInstance = bookRef.current?.pageFlip();
+    if (!flipInstance) return;
 
     setIsWindyClosing(true);
 
-    const totalDuration = 1000;
-    const stepTime = Math.max(80, Math.floor(totalDuration / currentPage));
+    if (pageSize.isMobile) {
+      setTimeout(() => {
+        try {
+          if (typeof flipInstance.turn === 'function') {
+            flipInstance.turn(0);
+          } else if (typeof flipInstance.flip === 'function') {
+            flipInstance.flip(0);
+          }
+        } catch (err) {}
+        setIsWindyClosing(false);
+      }, 500);
+      return;
+    }
 
     const interval = setInterval(() => {
-      const activePage = flip.getCurrentPageIndex();
-      if (activePage > 0) {
+      const currentPage = typeof flipInstance.getCurrentPageIndex === 'function' 
+        ? flipInstance.getCurrentPageIndex() 
+        : 0;
+
+      if (currentPage > 0) {
         try {
-          flip.flipPrev();
-        } catch (err) {}
+          if (typeof flipInstance.flipPrev === 'function') {
+            flipInstance.flipPrev();
+          }
+        } catch (err) {
+          clearInterval(interval);
+        }
       } else {
         clearInterval(interval);
       }
-    }, stepTime);
+    }, 120);
 
     setTimeout(() => {
       clearInterval(interval);
       try {
-        flip.turn(0);
+        if (typeof flipInstance.turn === 'function') {
+          flipInstance.turn(0);
+        }
       } catch (err) {}
       setIsWindyClosing(false);
-    }, 1150);
+    }, 1100);
   };
 
   const handlePageFlip = (e) => {
     if (isWindyClosing) return;
     const pageIndex = e.data;
-    const flip = bookRef.current?.pageFlip();
-    if (!flip) return;
+    const flipInstance = bookRef.current?.pageFlip();
+    if (!flipInstance) return;
 
-    const totalPagesCount = flip.getPageCount();
+    const totalPagesCount = typeof flipInstance.getPageCount === 'function' 
+      ? flipInstance.getPageCount() 
+      : 0;
+
     if (pageIndex >= totalPagesCount - 1) {
       setTimeout(() => {
         if (!isWindyClosing) {
-          flip.turn(0);
+          try {
+            if (typeof flipInstance.turn === 'function') {
+              flipInstance.turn(0);
+            }
+          } catch (err) {}
         }
       }, 600);
     }
@@ -930,7 +954,7 @@ export default function BookMenu({
             {/* MENU PAGES */}
             {menuPages.map((pageItems, index) => {
               const pageNum = index + 3;
-              const isEvenPage = pageNum % 2 === 0; // Genap = true, Ganjil = false
+              const isEvenPage = pageNum % 2 === 0;
 
               return (
                 <Page key={index} number={pageNum}>
@@ -1064,7 +1088,6 @@ export default function BookMenu({
                               </p>
                             </div>
 
-                            {/* POSISI DINAMIS: GANJIL = TOMBOL DI KIRI, GENAP = TOMBOL DI KANAN */}
                             <div
                               className="
                                 flex
